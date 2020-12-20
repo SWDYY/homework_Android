@@ -16,6 +16,24 @@ class login implements header
     public $phonenum="";
     public $authority="";
     public $belongto="";
+    function getName($idNum)
+    {
+        switch ($idNum){
+            case 1:
+               return"id";
+            case 2:
+                return"user_name";
+            case 3:
+                return"user_password";
+            case 4:
+                return"phonenum";
+            case 5:
+                return"authority";
+            case 6:
+                return "belongto";
+            default:break;
+        }
+    }
     public function setData($idNum,$value){
         switch ($idNum){
             case 1:
@@ -41,6 +59,7 @@ class login implements header
     }
 }
 class repository implements header {
+    public $count=3;
     public $id="";
     public $name="";
     public $outprice="";
@@ -60,7 +79,21 @@ class repository implements header {
             default:break;
         }
     }
+
+    function getName($idNum)
+    {
+        switch ($idNum) {
+            case 1:
+                return "id";
+            case 2:
+                return "name";
+            case 3:
+                return "outprice";
+            default:break;
+        }
+    }
 }
 interface header{
     function setData($idNum,$value);
+    function getName($idNum);
 }

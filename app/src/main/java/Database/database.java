@@ -80,7 +80,7 @@ public class database extends Application {
                 in=con.getInputStream();
                 String resultString=parseInfo(in);
                 JSONObject result=new JSONObject(resultString);
-                JSONArray resultArray=new JSONArray(result.getString("login"));
+                JSONArray resultArray=new JSONArray(result.getString(type));
                 con.disconnect();
                 return resultArray;
             }

@@ -12,8 +12,9 @@ require_once __DIR__ . '/header.php';//引用connect.php
 //等待传入的参数
 $tablename=$_POST["tableName"];
 $type=$_POST["type"];
-//$tablename="login";
-//$type="login";
+//$tablename="repository1";
+//$type="repository";
+
 //建立连接
 $link = connectToDB();
 //查看是否连接失败
@@ -28,17 +29,17 @@ $res=$link->query($sql);
 $data=array();
 if($res){
 //echo "查询成功";
-    while ($row = mysqli_fetch_array($res,MYSQLI_NUM))
+    while ($row = mysqli_fetch_assoc($res))
     {
-        error_reporting(0);
         $result = returnClassBytype($type);
+        error_reporting(0);
         for ($i=0;$i<$result->count;$i++){
-            $result->setData($i+1,$row[strval($i)]);
+            $result->setData($i+1,$row[$result->getName($i+1)]);
         }
         $data[]=$result;
     }
     $json = json_encode($data);//把数据转换为JSON数据.
-    echo "{".'"login"'.":".$json."}";
+    echo "{".$type.":".$json."}";
 }else{
     echo "查询失败";
 }

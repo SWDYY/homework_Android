@@ -10,7 +10,7 @@ import android.widget.TextView;
  * 显示全部货品
  */
 public class allStock extends Activity {
-    private String[] name={"id","user_name","user_password","phonenum","authority","belongto"};
+    private String[] name={"id","name","outprice"};
     private database db;
 
     @Override
@@ -26,6 +26,6 @@ public class allStock extends Activity {
         table table=new table();
         //初始化表头
         table.initHeader(name,this);
-        table.showData(db.executeFindAll("login","login"),this,name);
+        table.showData(db.executeFindAll("repository1","repository"),this,name);
     }
 }
