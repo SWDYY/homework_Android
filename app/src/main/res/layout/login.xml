@@ -3,15 +3,25 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:gravity="center_vertical"
+             android:background="@drawable/loginback"
         >
+    <ImageView
+            android:id="@+id/iv_1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/loginboy"/>
 
-<TableRow android:gravity="center"  android:padding="30dp">
+
+    <TableRow android:gravity="center"  android:padding="30dp">
         <TextView
                 android:gravity="left"
                 android:textStyle="bold"
                 android:padding="3dip"
                 android:text="用户名称："
                 android:textSize="55px"
+                android:textColor="@android:color/white"
                 android:minWidth="150dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -23,8 +33,10 @@
                 android:scrollHorizontally="true"
                 android:inputType="textNoSuggestions"
                 android:minWidth="150dp"
+                android:textColor="@android:color/white"
         />
     </TableRow>
+
     <TableRow android:gravity="center"  android:padding="30dp">
         <TextView
                 android:gravity="left"
@@ -33,7 +45,7 @@
                 android:text="用户密码："
                 android:textSize="55px"
                 android:minWidth="150dp"
-
+                android:textColor="@android:color/white"
         />
 
         <EditText
@@ -41,18 +53,18 @@
                 android:padding="3dip"
                 android:password="true"
                 android:minWidth="150dp"
+                android:textColor="@android:color/white"
+                android:theme="@style/MyEditText"
         />
     </TableRow>
+
     <TableRow android:gravity="center"  android:padding="30dp">
         <Button
                 android:id="@+id/login"
                 android:text="登录"
+                android:textColor="@android:color/white"
                 android:textSize="55px"
-        />
-        <Button
-                android:id="@+id/cancel"
-                android:text="取消"
-                android:textSize="55px"
+                android:background="@drawable/login_button_style"
         />
     </TableRow>
 </TableLayout>

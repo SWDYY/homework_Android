@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
@@ -42,7 +43,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //设置组件
-        setContentView(R.layout.login);
+        this.setContentView(R.layout.login);
         btnLogin = (Button) findViewById(R.id.login);//控件与代码绑定
         btnLogin.setOnClickListener(new ButtonListener());//使用点击事件
         user_name = (EditText) findViewById(R.id.username);//控件与代码绑定

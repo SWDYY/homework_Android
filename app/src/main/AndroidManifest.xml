@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools" package="com.example.myapplication"
+          package="com.example.myapplication"
           android:versionCode="1"
           android:versionName="1.0.0.1" >
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -17,21 +17,21 @@
 
         <activity
                 android:name="com.example.myapplication.Login"
-                android:label="Login" >
+                android:label="Login"
+        >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <activity
                 android:name="com.example.myapplication.allStock"
-                android:label="repositoryShow" >
+                android:label="allStock" >
         </activity>
         <activity
                 android:name="com.example.myapplication.shopkeeperCircleMainUI"
-                android:label="circleMainUI" >
+                android:label="shopkeeperCircleMainUI" >
         </activity>
         <activity
                 android:name="com.example.myapplication.sell"
