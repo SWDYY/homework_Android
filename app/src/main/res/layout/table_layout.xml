@@ -19,23 +19,12 @@
                 android:layout_height="match_parent"
                 android:scrollbarAlwaysDrawHorizontalTrack="false"
                 android:scrollbars="none">
-
-            <LinearLayout
-                    android:id="@+id/MyTable"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="9dp"
-                    android:orientation="vertical"
-            >
                 <TableLayout
                         android:id="@+id/MyTableData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                 </TableLayout>
-
-            </LinearLayout>
-
         </HorizontalScrollView>
     </ScrollView>
 </LinearLayout>

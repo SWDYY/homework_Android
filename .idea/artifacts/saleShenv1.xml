@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="apk" name="saleShenv1">
+    <output-path>$PROJECT_DIR$/build/classes/artifacts/saleShenv1</output-path>
+    <properties id="android-properties">
+      <options>
+        <option name="keyStoreUrl" value="file://" />
+      </options>
+    </properties>
+    <root id="archive" name="saleShenv1.apk" />
+  </artifact>
+</component>

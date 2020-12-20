@@ -26,8 +26,16 @@
         </activity>
 
         <activity
-                android:name="com.example.myapplication.repositoryShow"
+                android:name="com.example.myapplication.allStock"
                 android:label="repositoryShow" >
+        </activity>
+        <activity
+                android:name="com.example.myapplication.shopkeeperCircleMainUI"
+                android:label="circleMainUI" >
+        </activity>
+        <activity
+                android:name="com.example.myapplication.sell"
+                android:label="sell" >
         </activity>
     </application>
 </manifest>

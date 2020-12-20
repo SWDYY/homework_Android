@@ -5,23 +5,18 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.AttributeSet;
+import android.text.Layout;
 import android.widget.TextView;
-import com.example.myapplication.repositoryShow;
 
 @SuppressLint("AppCompatCustomView")
 public class MyTableTextView extends TextView {
 
     Paint paint = new Paint();
-    public MyTableTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        int color = Color.parseColor("#80b9f2");
-        // 为边框设置颜色
-        paint.setColor(color);
-    }
 
-    public MyTableTextView(Context context) {
+    public MyTableTextView(Context context,int textcolor) {
         super(context);
+        paint.setColor(Color.BLACK);// 为边框设置颜色
+        this.setTextColor(textcolor);//为文字设置颜色
     }
 
     @Override

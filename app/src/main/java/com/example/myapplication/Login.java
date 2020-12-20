@@ -3,7 +3,6 @@ package com.example.myapplication;
 import Database.DBapplication;
 import Database.database;
 import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -78,7 +77,7 @@ public class Login extends AppCompatActivity {
                 message.obj = "ERROR," + "密码输入为空";
                 handler.sendMessage(message);
             } else {
-                JSONArray results = db.executeFind("login", "user_name", "'" + String.valueOf(user_name.getText()) + "'");
+                JSONArray results = db.executeFind("login", "user_name", "'" + String.valueOf(user_name.getText()) + "'","login");
                 if (results == null || results.length() == 0) {
                     user_password.setText("");
                     Message message = handler.obtainMessage();
@@ -94,13 +93,13 @@ public class Login extends AppCompatActivity {
                             //Context是一个类，Activity是Context类的子类，也就是说，所有的Activity对象，都可以向上转型为Context对象
                             //setClass函数的第二个参数是一个Class对象，在当前场景下，应该传入需要被启动的Activity类的class对象
 
-                            intent.setClass(Login.this, repositoryShow.class);
+                            intent.setClass(Login.this, allStock.class);
                             startActivity(intent);
                         } else if (result.getString("authority").equals("shopkeeper")) {
                             user_password.setText("");
-                            Message message = handler.obtainMessage();
-                            message.obj = "shopkeeper," + "shopkeeper";
-                            handler.sendMessage(message);
+                            Intent intent = new Intent();
+                            intent.setClass(Login.this, shopkeeperCircleMainUI.class);
+                            startActivity(intent);
                         } else if (result.getString("authority").equals("employee")) {
                             user_password.setText("");
                             Message message = handler.obtainMessage();

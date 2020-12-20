@@ -19,11 +19,11 @@ public class database extends Application {
     }
 
     /*查询数据库中数据*/
-    public JSONArray executeFind(String tableName,String index,String value) {
+    public JSONArray executeFind(String tableName,String index,String value,String type) {
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
-                response= executeHttpFind(host+"executeFind.php",tableName,index,value);
+                response= executeHttpFind(host+"executeFind.php",tableName,index,value,type);
             }
         });
         thread.start();
@@ -36,11 +36,11 @@ public class database extends Application {
     }
 
     /*查询数据库某表中全部数据*/
-    public JSONArray executeFindAll(String tableName) {
+    public JSONArray executeFindAll(String tableName,String type) {
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
-                response= executeHttpFind(host+"executeFindAll.php",tableName,null,null);
+                response= executeHttpFind(host+"executeFindAll.php",tableName,null,null,type);
             }
         });
         thread.start();
@@ -52,7 +52,7 @@ public class database extends Application {
         return response;
     }
 
-    private JSONArray executeHttpFind(String path,String tableName,String index,String value) {
+    private JSONArray executeHttpFind(String path,String tableName,String index,String value,String type) {
         HttpURLConnection con;
         InputStream in;
         OutputStream out;
@@ -67,7 +67,7 @@ public class database extends Application {
 
             out = con.getOutputStream();
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-            String data=Construct_SQL_find_parameters(tableName,index,value);
+            String data=Construct_SQL_find_parameters(tableName,index,value,type);
             bufferedWriter.write(data);
 
             bufferedWriter.flush();
@@ -113,7 +113,7 @@ public class database extends Application {
      * @param index      想要查询数据库的表的哪一列的名字
      * @return
      */
-    private String Construct_SQL_find_parameters(String tableName,String index,String value){
+    private String Construct_SQL_find_parameters(String tableName,String index,String value,String type){
         String data = null;
         try {
             if (tableName!=null){
@@ -124,6 +124,9 @@ public class database extends Application {
             }
             if (value!=null){
                 data=data+"&" + URLEncoder.encode("value", "UTF-8") + "=" + URLEncoder.encode(value, "UTF-8");
+            }
+            if (type!=null){
+                data=data+"&" + URLEncoder.encode("type", "UTF-8") + "=" + URLEncoder.encode(type, "UTF-8");
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
