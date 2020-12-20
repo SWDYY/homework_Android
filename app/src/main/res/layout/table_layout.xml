@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--整个表格的布局  带滚动-->
+<!--Linerlayout 线性布局-->
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none"
+    >
+
+        <HorizontalScrollView
+                android:id="@+id/scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbarAlwaysDrawHorizontalTrack="false"
+                android:scrollbars="none">
+
+            <LinearLayout
+                    android:id="@+id/MyTable"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="9dp"
+                    android:orientation="vertical"
+            >
+                <TableLayout
+                        android:id="@+id/MyTableData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                </TableLayout>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+    </ScrollView>
+</LinearLayout>

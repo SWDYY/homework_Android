@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:gravity="center_vertical"
+        >
+
+<TableRow android:gravity="center"  android:padding="30dp">
+        <TextView
+                android:gravity="left"
+                android:textStyle="bold"
+                android:padding="3dip"
+                android:text="用户名称："
+                android:textSize="55px"
+                android:minWidth="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+        />
+        <!--        padding设置边距-->
+        <EditText
+                android:id="@+id/username"
+                android:padding="3dip"
+                android:scrollHorizontally="true"
+                android:inputType="textNoSuggestions"
+                android:minWidth="150dp"
+        />
+    </TableRow>
+    <TableRow android:gravity="center"  android:padding="30dp">
+        <TextView
+                android:gravity="left"
+                android:textStyle="bold"
+                android:padding="3dip"
+                android:text="用户密码："
+                android:textSize="55px"
+                android:minWidth="150dp"
+
+        />
+
+        <EditText
+                android:id="@+id/password"
+                android:padding="3dip"
+                android:password="true"
+                android:minWidth="150dp"
+        />
+    </TableRow>
+    <TableRow android:gravity="center"  android:padding="30dp">
+        <Button
+                android:id="@+id/login"
+                android:text="登录"
+                android:textSize="55px"
+        />
+        <Button
+                android:id="@+id/cancel"
+                android:text="取消"
+                android:textSize="55px"
+        />
+    </TableRow>
+</TableLayout>
