@@ -12,7 +12,7 @@
         <item name="colorControlActivated">@android:color/holo_orange_dark</item>
     </style>
     <style name="myFullscreenAlertDialogStyle" parent="Theme.AppCompat.Light.NoActionBar">      / actionbar, but status bar exists
-        //<item name="android:windowFullscreen">true</item>                       //remove status bar
+        <item name="android:windowFullscreen">true</item>                       //remove status bar
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>        //smooth animation
         <item name="colorAccent">@color/colorAccent</item>                      /ange button text color
     </style>

@@ -16,7 +16,6 @@ public class setDialogHandler extends Handler {
     @Override
     public void handleMessage(Message msg) {
         String s = String.valueOf(msg.obj);
-        System.out.println("ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
         String tmp[] = s.split(",");
         AlertDialog alertDialog1 = new AlertDialog.Builder(showClass,R.style.myFullscreenAlertDialogStyle)
                 .setTitle(tmp[0])//标题
