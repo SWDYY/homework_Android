@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -100,6 +101,7 @@ public class Login extends AppCompatActivity {
                             user_password.setText("");
                             Intent intent = new Intent();
                             intent.setClass(Login.this, shopkeeperCircleMainUI.class);
+                            intent.putExtra("user_name", String.valueOf(user_name.getText()));
                             startActivity(intent);
                         } else if (result.getString("authority").equals("employee")) {
                             user_password.setText("");
