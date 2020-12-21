@@ -7,9 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcelable;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
@@ -95,7 +93,7 @@ public class Login extends AppCompatActivity {
                             //Context是一个类，Activity是Context类的子类，也就是说，所有的Activity对象，都可以向上转型为Context对象
                             //setClass函数的第二个参数是一个Class对象，在当前场景下，应该传入需要被启动的Activity类的class对象
 
-                            intent.setClass(Login.this, allStock.class);
+                            intent.setClass(Login.this, allProduct.class);
                             startActivity(intent);
                         } else if (result.getString("authority").equals("shopkeeper")) {
                             user_password.setText("");

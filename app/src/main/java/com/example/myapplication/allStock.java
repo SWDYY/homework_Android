@@ -1,29 +1,25 @@
 package com.example.myapplication;
 
 import Database.DBapplication;
+import Database.database;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import Database.database;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * 显示全部货品
- */
 public class allStock extends Activity {
-    private String[] name={"id","name","outprice"};
+    private final String[] name={"id","name","num","inprice","outprice","outprice_wholesale"};
     private database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.allstock);
+        setContentView(R.layout.hastable_header);
         TextView textView=findViewById(R.id.textView1);
-        textView.setText("全部货品");
-//        mainLinerLayout = this.findViewById(R.id.MyTable);
+        textView.setText("库存");
         //获取共享的数据库类
         DBapplication dBapplication=(DBapplication)getApplication();
         this.db=dBapplication.getDB();

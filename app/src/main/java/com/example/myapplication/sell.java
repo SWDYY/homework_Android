@@ -3,12 +3,8 @@ package com.example.myapplication;
 import Database.DBapplication;
 import Database.database;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class sell extends Activity {
     private String[] name={"id","user_name","user_password","phonenum","authority","belongto"};
@@ -17,7 +13,7 @@ public class sell extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shopkeepersell);
+        setContentView(R.layout.shopkeeper_sell);
         TextView textView=findViewById(R.id.textView1);
         textView.setText("销售");
         //获取共享的数据库类

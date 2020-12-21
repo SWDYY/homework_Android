@@ -5,6 +5,10 @@ function returnClassBytype($type){
             return new login();
         case "repository":
             return new repository();
+        case "customer":
+            return new customer();
+        case "order":
+            return new order();
     }
 }
 class login implements header
@@ -58,11 +62,92 @@ class login implements header
         }
     }
 }
-class repository implements header {
-    public $count=3;
+class customer implements header
+{
+    public $count=4;
     public $id="";
     public $name="";
+    public $phonenum="";
+    public $classification="";
+    function getName($idNum)
+    {
+        switch ($idNum){
+            case 1:
+                return"id";
+            case 2:
+                return"name";
+            case 3:
+                return"phonenum";
+            case 4:
+                return"classification";
+            default:break;
+        }
+    }
+    public function setData($idNum,$value){
+        switch ($idNum){
+            case 1:
+                $this->id=$value;
+                break;
+            case 2:
+                $this->name=$value;
+                break;
+            case 3:
+                $this->phonenum=$value;
+                break;
+            case 4:
+                $this->classification=$value;
+                break;
+            default:break;
+        }
+    }
+}
+class order implements header
+{
+    public $count=4;
+    public $id="";
+    public $name="";
+    public $price_all="";
+    public $state="";
+    function getName($idNum)
+    {
+        switch ($idNum){
+            case 1:
+                return"id";
+            case 2:
+                return"name";
+            case 3:
+                return"price_all";
+            case 4:
+                return"state";
+            default:break;
+        }
+    }
+    public function setData($idNum,$value){
+        switch ($idNum){
+            case 1:
+                $this->id=$value;
+                break;
+            case 2:
+                $this->name=$value;
+                break;
+            case 3:
+                $this->price_all=$value;
+                break;
+            case 4:
+                $this->state=$value;
+                break;
+            default:break;
+        }
+    }
+}
+class repository implements header {
+    public $count=6;
+    public $id="";
+    public $name="";
+    public $num="";
+    public $inprice="";
     public $outprice="";
+    public $outprice_wholesale="";
 
     function setData($idNum, $value)
     {
@@ -74,7 +159,16 @@ class repository implements header {
                 $this->name = $value;
                 break;
             case 3:
+                $this->num = $value;
+                break;
+            case 4:
+                $this->inprice = $value;
+                break;
+            case 5:
                 $this->outprice = $value;
+                break;
+            case 6:
+                $this->outprice_wholesale = $value;
                 break;
             default:break;
         }
@@ -88,7 +182,13 @@ class repository implements header {
             case 2:
                 return "name";
             case 3:
+                return "num";
+            case 4:
+                return "inprice";
+            case 5:
                 return "outprice";
+            case 6:
+                return "outprice_wholesale";
             default:break;
         }
     }

@@ -12,8 +12,8 @@ require_once __DIR__ . '/header.php';//引用connect.php
 //等待传入的参数
 $tablename=$_POST["tableName"];
 $type=$_POST["type"];
-//$tablename="repository1";
-//$type="repository";
+//$tablename="repository1_order";
+//$type="order";
 
 //建立连接
 $link = connectToDB();
