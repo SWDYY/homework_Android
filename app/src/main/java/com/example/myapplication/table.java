@@ -42,4 +42,19 @@ public class table {
             }
         }
     }
+
+    public void addData(JSONObject jsonObject,Activity activity,String[] name,int table_id){
+        TableLayout table = activity.findViewById(table_id);
+        TableRow tablerow = new TableRow(activity);
+        for(int j=0;j<name.length;j++){
+            MyTableTextView textview = new MyTableTextView(activity,Color.BLACK);
+            try {
+                textview.setText(String.valueOf(jsonObject.get(name[j])));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            tablerow.addView(textview);
+        }
+        table.addView(tablerow);
+    }
 }

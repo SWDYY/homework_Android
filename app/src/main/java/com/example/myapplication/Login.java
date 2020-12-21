@@ -2,7 +2,7 @@ package com.example.myapplication;
 
 import Database.DBapplication;
 import Database.database;
-import MyHander.MyHandler;
+import MyHander.setDialogHandler;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,7 +23,7 @@ public class Login extends Activity {
     private Activity self = this;
     private database db;
 
-    private Handler handler = new MyHandler(Login.this);
+    private Handler handler = new setDialogHandler(Login.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -74,6 +74,12 @@
                 android:theme="@style/MyEditText"
                 android:hint="请输入新增的商品数量">
         </EditText>
+        <Button
+                android:id="@+id/add_newOrderItem_Button"
+                android:text="新增一条订单"
+                android:textColor="@android:color/black"
+                android:textSize="20dp">
+        </Button>
     </TableRow>
 
     <TableRow  android:padding="10dp">
