@@ -23,8 +23,8 @@ public class allCustomer extends Activity {
         this.db=dBapplication.getDB();
         table table=new table();
         //初始化表头
-        table.initHeader(name,this);
+        table.initHeader(name,this,R.id.MyTableData);
         JSONArray allCustomer=db.executeFindAll("customermanager","customer");
-        table.showData(allCustomer,this,name);
+        table.showData(allCustomer,this,name,R.id.MyTableData);
     }
 }

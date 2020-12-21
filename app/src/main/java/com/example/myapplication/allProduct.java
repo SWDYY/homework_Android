@@ -29,7 +29,7 @@ public class allProduct extends Activity {
         this.db=dBapplication.getDB();
         table table=new table();
         //初始化表头
-        table.initHeader(name,this);
+        table.initHeader(name,this,R.id.MyTableData);
         //从数据库提取属于哪个仓库
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据
@@ -45,6 +45,6 @@ public class allProduct extends Activity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        table.showData(db.executeFindAll(belongtoString,"repository"),this,name);
+        table.showData(db.executeFindAll(belongtoString,"repository"),this,name,R.id.MyTableData);
     }
 }

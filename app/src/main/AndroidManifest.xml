@@ -35,7 +35,7 @@
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
         <activity
-                android:name="com.example.myapplication.sell"
+                android:name="com.example.myapplication.sell_addNewOrder"
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                 android:label="sell" >
         </activity>

@@ -4,11 +4,15 @@ import Database.DBapplication;
 import Database.database;
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
-public class sell extends Activity {
-    private String[] name={"id","user_name","user_password","phonenum","authority","belongto"};
+public class sell_addNewOrder extends Activity {
     private database db;
+    private Button button_findCustomer;
+    private Button button_find_product;
+    private Button button_save;
+    private String[] name={"product_name","num","outprice","price_all"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,9 +23,14 @@ public class sell extends Activity {
         //获取共享的数据库类
         DBapplication dBapplication=(DBapplication)getApplication();
         this.db=dBapplication.getDB();
-        table table=new table();
-        //初始化表头
-        table.initHeader(name,this);
-        table.showData(db.executeFindAll("login","login"),this,name);
+        //绑定按钮
+        button_findCustomer=findViewById(R.id.find_customerButton);
+        button_find_product=findViewById(R.id.find_product_Button);
+        button_save=findViewById(R.id.save);
+
+        table table_orderitem=new table();
+        table_orderitem.initHeader(name,this,R.id.table_addOrder);
     }
+
+
 }

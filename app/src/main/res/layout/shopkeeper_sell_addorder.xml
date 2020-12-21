@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/addOrderTable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <TableRow  android:padding="10dp">
+        <EditText
+                android:id="@+id/find_customer"
+                android:padding="3dip"
+                android:scrollHorizontally="true"
+                android:inputType="textNoSuggestions"
+                android:minWidth="200dp"
+                android:textColor="@android:color/black"
+                android:theme="@style/MyEditText"
+                android:hint="请输入客户姓名">
+        </EditText>
+        <Button
+                android:id="@+id/find_customerButton"
+                android:text="查找"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"
+                >
+        </Button>
+    </TableRow>
+    <TableRow android:padding="10dp">
+        <TextView
+                android:gravity="left"
+                android:textStyle="bold"
+                android:padding="3dip"
+                android:text="客户类型"
+                android:textSize="55px"
+                android:textColor="@android:color/black"
+        />
+        <!--        显示查询到的客户类型-->
+        <TextView
+                android:id="@+id/textview_addNewOrder_num"
+                android:gravity="left"
+                android:textStyle="bold"
+                android:text=""
+                android:padding="3dip"
+                android:textSize="55px"
+                android:minWidth="150dp"
+                android:background="@drawable/has_rectangle_textview"
+                android:textColor="@android:color/black"
+        />
+    </TableRow>
+    <TableRow  android:padding="10dp">
+        <EditText
+                android:id="@+id/edit_addNewOrder_name"
+                android:padding="3dip"
+                android:scrollHorizontally="true"
+                android:inputType="textNoSuggestions"
+                android:minWidth="200dp"
+                android:textColor="@android:color/black"
+                android:theme="@style/MyEditText"
+                android:hint="请输入新增的商品名字">
+        </EditText>
+        <Button
+                android:id="@+id/find_product_Button"
+                android:text="查找"
+                android:textColor="@android:color/black"
+                android:textSize="20dp">
+        </Button>
+    </TableRow>
+    <TableRow  android:padding="10dp">
+        <EditText
+                android:id="@+id/edit_addNewOrder_num"
+                android:padding="3dip"
+                android:scrollHorizontally="true"
+                android:inputType="textNoSuggestions"
+                android:minWidth="200dp"
+                android:textColor="@android:color/black"
+                android:theme="@style/MyEditText"
+                android:hint="请输入新增的商品数量">
+        </EditText>
+    </TableRow>
+
+    <TableRow  android:padding="10dp">
+
+        <Button
+                android:id="@+id/save"
+                android:text="保存"
+                android:textColor="@android:color/black"
+                android:textSize="55px"
+        >
+        </Button>
+    </TableRow>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none"
+    >
+
+        <HorizontalScrollView
+                android:id="@+id/scroll_view_addOrder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbarAlwaysDrawHorizontalTrack="false"
+                android:scrollbars="none">
+            <TableLayout
+                    android:id="@+id/table_addOrder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+            </TableLayout>
+        </HorizontalScrollView>
+    </ScrollView>
+
+</TableLayout>

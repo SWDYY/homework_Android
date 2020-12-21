@@ -10,9 +10,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class table {
-    public void initHeader(String[] name, Activity activity) {
+    public void initHeader(String[] name, Activity activity,int table_id) {
         //初始化标题
-        TableLayout table = activity.findViewById(R.id.MyTableData);
+        TableLayout table = activity.findViewById(table_id);
         table.setStretchAllColumns(true);//自动填充空白处
         TableRow tablerow = new TableRow(activity);
         for(int j=0;j<name.length;j++){
@@ -23,9 +23,9 @@ public class table {
         table.addView(tablerow);
     }
 
-    public void showData(JSONArray results,Activity activity,String[] name){
+    public void showData(JSONArray results,Activity activity,String[] name,int table_id){
         //初始化数据
-        TableLayout table = activity.findViewById(R.id.MyTableData);
+        TableLayout table = activity.findViewById(table_id);
         table.setStretchAllColumns(true);//自动填充空白处
         for (int i=0;i<results.length();i++) {
             TableRow tablerow = new TableRow(activity);

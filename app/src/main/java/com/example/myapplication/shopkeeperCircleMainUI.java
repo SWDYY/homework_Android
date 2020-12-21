@@ -35,7 +35,7 @@ public class shopkeeperCircleMainUI extends Activity {
         button_orderLists.setOnClickListener(new ButtonListener(orderLists.class));
         button_allCustomer.setOnClickListener(new ButtonListener(allCustomer.class));
         button_employeeDetails.setOnClickListener(new ButtonListener(allEmployee.class));
-        button_sell.setOnClickListener(new ButtonListener(sell.class));
+        button_sell.setOnClickListener(new ButtonListener(sell_addNewOrder.class));
         button_allProduct.setOnClickListener(new ButtonListener(allProduct.class));
     }
 
