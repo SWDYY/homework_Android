@@ -34,7 +34,7 @@
         />
         <!--        显示查询到的客户类型-->
         <TextView
-                android:id="@+id/textview_addNewOrder_num"
+                android:id="@+id/textview_customerClassification"
                 android:gravity="left"
                 android:textStyle="bold"
                 android:text=""
@@ -47,7 +47,7 @@
     </TableRow>
     <TableRow  android:padding="10dp">
         <EditText
-                android:id="@+id/edit_addNewOrder_name"
+                android:id="@+id/edit_addNewProduct_name"
                 android:padding="3dip"
                 android:scrollHorizontally="true"
                 android:inputType="textNoSuggestions"
@@ -65,7 +65,7 @@
     </TableRow>
     <TableRow  android:padding="10dp">
         <EditText
-                android:id="@+id/edit_addNewOrder_num"
+                android:id="@+id/edit_addNewProduct_num"
                 android:padding="3dip"
                 android:scrollHorizontally="true"
                 android:inputType="textNoSuggestions"

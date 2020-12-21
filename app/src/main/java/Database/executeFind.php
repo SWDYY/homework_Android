@@ -13,10 +13,12 @@ require_once __DIR__ . '/header.php';//引用connect.php
 $tablename=$_POST["tableName"];
 $index=$_POST["index"];
 $value=$_POST["value"];
+$type=$_POST["type"];
 
-//$tablename="login";
-//$index="user_password";
-//$value="123";
+//$tablename="customermanager";
+//$index="name";
+//$value="'sxz'";
+//$type="customer";
 
 $link = connectToDB();
 
@@ -27,25 +29,21 @@ if($link->connect_error){
 $sql = "select * from $tablename where $index=$value";
 //echo $sql;//显示查询语句
 $res=$link->query($sql);
-//$data=mysqli_fetch_all($res);
-
+//构造成JSON语言格式
 $data=array();
 if($res){
 //echo "查询成功";
-    while ($row = mysqli_fetch_array($res,MYSQLI_NUM))
+    while ($row = mysqli_fetch_assoc($res))
     {
-        $login = new login();
+        $result = returnClassBytype($type);
         error_reporting(0);
-        $login->id = $row["0"];
-        $login->user_name = $row["1"];
-        $login->user_password = $row["2"];
-        $login->phonenum = $row["3"];
-        $login->authority = $row["4"];
-        $login->belongto = $row["5"];
-        $data[]=$login;
+        for ($i=0;$i<$result->count;$i++){
+            $result->setData($i+1,$row[$result->getName($i+1)]);
+        }
+        $data[]=$result;
     }
     $json = json_encode($data);//把数据转换为JSON数据.
-    echo "{".'"login"'.":".$json."}";
+    echo "{".$type.":".$json."}";
 }else{
     echo "查询失败";
 }

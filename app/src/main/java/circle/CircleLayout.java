@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.example.myapplication.R;
 
+/**
+ * 将所有组件按照圆形显示
+ */
 public class CircleLayout extends ViewGroup {
     private float radius;//圆半径
     private int mDegreeDelta; //角度间距

@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import Database.DBapplication;
 import Database.database;
+import MyHander.MyHandler;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,13 +11,11 @@ import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Login extends AppCompatActivity {
+public class Login extends Activity {
 
     private Button btnLogin;//登录按钮
     private EditText user_name;
@@ -24,19 +23,7 @@ public class Login extends AppCompatActivity {
     private Activity self = this;
     private database db;
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            String s = String.valueOf(msg.obj);
-            String tmp[] = s.split(",");
-            AlertDialog alertDialog1 = new AlertDialog.Builder(Login.this)
-                    .setTitle(tmp[0])//标题
-                    .setMessage(tmp[1])//内容
-                    .setIcon(R.mipmap.ic_launcher)//图标
-                    .create();
-            alertDialog1.show();
-        }
-    };
+    private Handler handler = new MyHandler(Login.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

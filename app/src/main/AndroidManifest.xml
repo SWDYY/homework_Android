@@ -16,6 +16,7 @@
 
         <activity
                 android:name="com.example.myapplication.Login"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                 android:label="Login"
         >
             <intent-filter>

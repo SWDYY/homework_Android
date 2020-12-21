@@ -8,6 +8,9 @@ import android.graphics.Paint;
 import android.text.Layout;
 import android.widget.TextView;
 
+/**
+ * 显示带边框的表格
+ */
 @SuppressLint("AppCompatCustomView")
 public class MyTableTextView extends TextView {
 
