@@ -3,10 +3,10 @@ package com.example.myapplication;
 import Database.DBapplication;
 import Database.database;
 import MyHander.setDialogHandler;
+import MyHander.set_Editview_canInput;
 import MyHander.set_Editview_noInput;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
@@ -33,8 +33,12 @@ public class sell_addNewOrder extends Activity {
     private String authority;
     private String product_name;
     private String num;
-    private setDialogHandler handler =new setDialogHandler(sell_addNewOrder.this);//设置弹窗
-    private set_Editview_noInput set_editview_noInput;
+    private setDialogHandler handler = new setDialogHandler(sell_addNewOrder.this);//设置弹窗
+    private set_Editview_noInput findCustomer_set_editview_noInput;
+    private set_Editview_noInput findProduct_set_editview_noInput;
+    private set_Editview_canInput findCustomer_set_editview_canInput;
+    private set_Editview_canInput findProduct_set_editview_canInput;
+
     private String[] name = {"product_name", "num", "outprice", "price_all"};
 
     @Override
@@ -52,14 +56,20 @@ public class sell_addNewOrder extends Activity {
         button_save = findViewById(R.id.save);
         edit_find_customer = findViewById(R.id.find_customer);
         customerClassification = findViewById(R.id.textview_customerClassification);
-        edit_addNewProduct_name=findViewById(R.id.edit_addNewProduct_name);
-        edit_addNewProduct_num=findViewById(R.id.edit_addNewProduct_num);
-        Button_add_newOrderItem=findViewById(R.id.add_newOrderItem_Button);
-
+        edit_addNewProduct_name = findViewById(R.id.edit_addNewProduct_name);
+        edit_addNewProduct_num = findViewById(R.id.edit_addNewProduct_num);
+        Button_add_newOrderItem = findViewById(R.id.add_newOrderItem_Button);
+        //绑定传递消息handler
+        findCustomer_set_editview_noInput = new set_Editview_noInput(sell_addNewOrder.this, edit_find_customer);
+        findProduct_set_editview_noInput = new set_Editview_noInput(sell_addNewOrder.this, edit_addNewProduct_name);
+        findCustomer_set_editview_canInput = new set_Editview_canInput(sell_addNewOrder.this, edit_find_customer);
+        findProduct_set_editview_canInput = new set_Editview_canInput(sell_addNewOrder.this, edit_addNewProduct_name);
+        //按钮绑定监听
         button_findCustomer.setOnClickListener(new find_customer_buttonListener());
         button_find_product.setOnClickListener(new find_product_buttonListener());
         Button_add_newOrderItem.setOnClickListener(new add_newOrderItem());
-
+        button_save.setOnClickListener(new save());
+        //初始化表头
         table_orderitem = new table();
         table_orderitem.initHeader(name, this, R.id.table_addOrder);
     }
@@ -70,72 +80,67 @@ public class sell_addNewOrder extends Activity {
                 @Override
                 public void run() {
                     //从数据库提取属于哪个仓库
-                    Intent intent=getIntent();
-                    Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据
-                    String user_name=bundle.getString("user_name");//getString()返回指定key的值
-                    JSONArray belongto=db.executeFind("login","user_name","'"+user_name+"'","login");
-                    String belongtoString="";
+                    Intent intent = getIntent();
+                    Bundle bundle = intent.getExtras();//.getExtras()得到intent所附带的额外数据
+                    String user_name = bundle.getString("user_name");//getString()返回指定key的值
+                    JSONArray belongto = db.executeFind("login", "user_name", "'" + user_name + "'", "login");
+                    String belongtoString = "";
                     try {
-                        JSONObject jsonObject= (JSONObject) belongto.get(0);
-                        belongtoString=jsonObject.getString("belongto");
-                        if (belongtoString.equals("all")){//@TODO  经理不一定用到
-                            belongtoString="repository_all";
+                        JSONObject jsonObject = (JSONObject) belongto.get(0);
+                        belongtoString = jsonObject.getString("belongto");
+                        if (belongtoString.equals("all")) {//@TODO  经理不一定用到
+                            belongtoString = "repository_all";
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     //去数据库查找
-                    JSONArray findProduct=db.executeFind(belongtoString,"name","'"+edit_addNewProduct_name.getText()+"'","repository");
-                    if (findProduct.length()==0){
+                    JSONArray findProduct = db.executeFind(belongtoString, "name", "'" + edit_addNewProduct_name.getText() + "'", "repository");
+                    if (findProduct.length() == 0) {
                         //@TODO  弹窗不好用
                         Message message = handler.obtainMessage();
                         message.obj = "ERROR," + "未查到相关商品，请重新输入";
                         handler.sendMessage(message);
-                    }else{
+                    } else {
                         try {
-                            JSONObject jsonObject= (JSONObject) findProduct.get(0);
-                            if (authority.equals("retail")){
-                                outprice=jsonObject.getString("outprice");
-                            }else {
-                                outprice=jsonObject.getString("outprice_wholesale");
+                            JSONObject jsonObject = (JSONObject) findProduct.get(0);
+                            if (authority.equals("retail")) {
+                                outprice = jsonObject.getString("outprice");
+                            } else {
+                                outprice = jsonObject.getString("outprice_wholesale");
                             }
-                            edit_addNewProduct_name.setTextColor(Color.BLUE);
-                            product_name=jsonObject.getString("name");
-                            //TODO  设置不可输入
-//                            set_editview_noInput=new set_Editview_noInput(sell_addNewOrder.this,edit_find_customer);
-//                            Message message = set_editview_noInput.obtainMessage();
-//                            set_editview_noInput.sendMessage(message);
+                            product_name = jsonObject.getString("name");
+
+                            Message message = findCustomer_set_editview_noInput.obtainMessage();
+                            findProduct_set_editview_noInput.sendMessage(message);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }
             }).start();
         }
     }
 
-    class  find_customer_buttonListener implements View.OnClickListener {
+    class find_customer_buttonListener implements View.OnClickListener {
         public void onClick(View v) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String name="'"+String.valueOf(edit_find_customer.getText())+"'";
-                    JSONArray find_name=db.executeFind("customermanager","name",name,"customer");
-                    if (find_name.length()==0){
+                    String name = "'" + String.valueOf(edit_find_customer.getText()) + "'";
+                    JSONArray find_name = db.executeFind("customermanager", "name", name, "customer");
+                    if (find_name.length() == 0) {
                         //@TODO  弹窗不好用
                         Message message = handler.obtainMessage();
                         message.obj = "ERROR," + "未查到相关客户，请新增客户或重新输入";
                         handler.sendMessage(message);
-                    }else{
+                    } else {
                         try {
-                            JSONObject jsonObject= (JSONObject) find_name.get(0);
-                            authority=jsonObject.getString("classification");
+                            JSONObject jsonObject = (JSONObject) find_name.get(0);
+                            authority = jsonObject.getString("classification");
                             customerClassification.setText(authority);
-                            edit_find_customer.setTextColor(Color.BLUE);
-//                            set_editview_noInput=new set_Editview_noInput(sell_addNewOrder.this,edit_find_customer);
-//                            Message message = set_editview_noInput.obtainMessage();
-//                            set_editview_noInput.sendMessage(message);
+                            findCustomer_set_editview_noInput.sendMessage(findCustomer_set_editview_noInput.obtainMessage());
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -145,43 +150,53 @@ public class sell_addNewOrder extends Activity {
             }).start();
         }
     }
+
     class add_newOrderItem implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            String num_input=String.valueOf(edit_addNewProduct_num.getText());
-            if (num_input.equals("")){
+            String num_input = String.valueOf(edit_addNewProduct_num.getText());
+            if (num_input.equals("")) {
                 //@TODO  弹窗不好用
                 Message message = handler.obtainMessage();
                 message.obj = "ERROR," + "商品数目为0，不能增加";
                 handler.sendMessage(message);
-            }else if (!num_input.matches("[0-9]+")){
+            } else if (!num_input.matches("[0-9]+")) {
                 //@TODO  弹窗不好用
                 Message message = handler.obtainMessage();
                 message.obj = "ERROR," + "输入含有非法字符，请重新输入，不能增加";
                 handler.sendMessage(message);
-            }else{
+            } else {
                 //TODO 数据库orderItem增加
                 try {
-                    num=num_input;
-                    price_all=String.valueOf(Float.valueOf(outprice)*Integer.valueOf(num_input));
-                    JSONObject jsonObject=new JSONObject(convertTOJSON());
-                    table_orderitem.addData(jsonObject,sell_addNewOrder.this,name,R.id.table_addOrder);
-                    edit_addNewProduct_name.setText("");
-                    edit_addNewProduct_name.setTextColor(Color.BLACK);
+                    num = num_input;
+                    price_all = String.valueOf(Float.valueOf(outprice) * Integer.valueOf(num_input));
+                    JSONObject jsonObject = new JSONObject(convertTOJSON());
+                    table_orderitem.addData(jsonObject, sell_addNewOrder.this, name, R.id.table_addOrder);
+                    //设置可以输入
                     edit_addNewProduct_num.setText("");
+                    findProduct_set_editview_canInput.sendMessage(findProduct_set_editview_canInput.obtainMessage());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }
 
-        private String convertTOJSON(){
-            String result="{";
-            product_name="\"product_name\":"+product_name+",";
-            num="\"num\":\""+num+"\",";
-            outprice="\"outprice\":\""+outprice+"\",";
-            price_all="\"price_all\":\""+price_all+"\"}";
-            return result+product_name+num+outprice+price_all;
+        private String convertTOJSON() {
+            String result = "{";
+            product_name = "\"product_name\":" + product_name + ",";
+            num = "\"num\":\"" + num + "\",";
+            outprice = "\"outprice\":\"" + outprice + "\",";
+            price_all = "\"price_all\":\"" + price_all + "\"}";
+            return result + product_name + num + outprice + price_all;
+        }
+    }
+
+    class save implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            findCustomer_set_editview_canInput.sendMessage(findCustomer_set_editview_canInput.obtainMessage());
+            customerClassification.setText("");
         }
     }
 }
