@@ -60,5 +60,10 @@
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                 android:label="allStock" >
         </activity>
+        <activity
+                android:name="com.example.myapplication.unChecked"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                android:label="unChecked" >
+        </activity>
     </application>
 </manifest>

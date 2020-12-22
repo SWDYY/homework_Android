@@ -21,11 +21,11 @@ $target_value=$_POST["target_value"];
 $index=$_POST["index"];
 $index_value=$_POST["index_value"];
 
-//$tablename = "repository1_order";
-//$target_index="price_all";
-//$target_value="10";
-//$index="id";
-//$index_value="23";
+//$tableName = "repository1";
+//$target_index="num";
+//$target_value="91";
+//$index="name";
+//$index_value="'can'";
 
 //建立连接
 $link = connectToDB();

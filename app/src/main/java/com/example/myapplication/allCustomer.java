@@ -14,7 +14,7 @@ public class allCustomer extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hastable_header);
+        setContentView(R.layout.no_bottombtn_tableandtop);
         TextView textView=findViewById(R.id.textView1);
         textView.setText("客户详情");
 //        mainLinerLayout = this.findViewById(R.id.MyTable);

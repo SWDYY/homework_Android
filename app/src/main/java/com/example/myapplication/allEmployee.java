@@ -17,7 +17,7 @@ public class allEmployee extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hastable_header);
+        setContentView(R.layout.no_bottombtn_tableandtop);
         TextView textView=findViewById(R.id.textView1);
         textView.setText("员工详情");
         //获取共享的数据库类

@@ -8,7 +8,7 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
-        <include layout="@layout/has_search_name_head"/>
+        <include layout="@layout/no_savebutton_head"/>
     </LinearLayout>
 
     <!-- 中间 -->

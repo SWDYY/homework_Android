@@ -26,17 +26,20 @@ public class sell_addNewOrder extends Activity {
     private Button button_find_product;
     private Button button_save;//保存
     private Button Button_add_newOrderItem;
+    private Button ButtonBottom_unchecked;
     private EditText edit_find_customer;
     private TextView customerClassification;
     private EditText edit_addNewProduct_name;
     private EditText edit_addNewProduct_num;
+    private String user_name;
     private String belongtoString;
     private String inpriceString;
     private String outprice;
     private String price_all;
     private String authority;
     private String product_name;
-    private String num;
+    private String inputNum;
+    private String dataNum;
     private List<Float> profitList=new ArrayList<>();
     private setDialogHandler handler = new setDialogHandler(sell_addNewOrder.this);//设置弹窗
     private set_Editview_noInput findCustomer_set_editview_noInput;
@@ -55,6 +58,10 @@ public class sell_addNewOrder extends Activity {
         //获取共享的数据库类
         DBapplication dBapplication = (DBapplication) getApplication();
         this.db = dBapplication.getDB();
+        //获取传递过来的消息
+        Intent intent=getIntent();
+        Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据
+        user_name=bundle.getString("user_name");//getString()返回指定key的值
         //绑定按钮
         button_findCustomer = findViewById(R.id.find_customerButton);
         button_find_product = findViewById(R.id.find_product_Button);
@@ -65,6 +72,8 @@ public class sell_addNewOrder extends Activity {
         edit_addNewProduct_num = findViewById(R.id.edit_addNewProduct_num);
         Button_add_newOrderItem = findViewById(R.id.add_newOrderItem_Button);
         addOderItem_tableLayout=findViewById(R.id.table_addOrder);
+        ButtonBottom_unchecked=findViewById(R.id.radio1);
+
         //绑定传递消息handler
         findCustomer_set_editview_noInput = new set_Editview_noInput(sell_addNewOrder.this, edit_find_customer);
         findProduct_set_editview_noInput = new set_Editview_noInput(sell_addNewOrder.this, edit_addNewProduct_name);
@@ -75,6 +84,7 @@ public class sell_addNewOrder extends Activity {
         button_find_product.setOnClickListener(new find_product_buttonListener());
         Button_add_newOrderItem.setOnClickListener(new add_newOrderItem());
         button_save.setOnClickListener(new save());
+        ButtonBottom_unchecked.setOnClickListener(new ButtonListener_toFrom(unChecked.class));
         //初始化表头
         table_orderitem = new table();
         table_orderitem.initHeader(name, this, R.id.table_addOrder);
@@ -114,8 +124,10 @@ public class sell_addNewOrder extends Activity {
                             } else {
                                 outprice = jsonObject.getString("outprice_wholesale");
                             }
+                            dataNum=jsonObject.getString("num");
                             inpriceString=jsonObject.getString("inprice");
                             product_name = jsonObject.getString("name");
+
                             Message message = findCustomer_set_editview_noInput.obtainMessage();
                             findProduct_set_editview_noInput.sendMessage(message);
                         } catch (JSONException e) {
@@ -167,9 +179,14 @@ public class sell_addNewOrder extends Activity {
                 Message message = handler.obtainMessage();
                 message.obj = "ERROR," + "输入含有非法字符，请重新输入，不能增加";
                 handler.sendMessage(message);
-            } else {
+            }else if(Integer.valueOf(num_input)>Integer.valueOf(dataNum)){
+                Message message = handler.obtainMessage();
+                message.obj = "ERROR," + "销售的商品数量大于库存中数量，库存数量为"+dataNum+",请重新输入，不能增加";
+                handler.sendMessage(message);
+            }
+            else {
                 try {
-                    num = num_input;
+                    inputNum = num_input;
                     price_all = String.valueOf(Float.valueOf(outprice) * Integer.valueOf(num_input));
                     profitList.add(Float.valueOf(inpriceString)*Integer.valueOf(num_input));
                     JSONObject jsonObject = new JSONObject(convertTOJSON());
@@ -186,10 +203,10 @@ public class sell_addNewOrder extends Activity {
         private String convertTOJSON() {
             String result = "{";
             product_name = "\"product_name\":" + product_name + ",";
-            num = "\"num\":\"" + num + "\",";
+            inputNum = "\"num\":\"" + inputNum + "\",";
             outprice = "\"outprice\":\"" + outprice + "\",";
             price_all = "\"price_all\":\"" + price_all + "\"}";
-            return result + product_name + num + outprice + price_all;
+            return result + product_name + inputNum + outprice + price_all;
         }
     }
 
@@ -215,8 +232,9 @@ public class sell_addNewOrder extends Activity {
                     jsonObject = (JSONObject)orderJSONArray.get(0);
                     order_id=jsonObject.getString("id");
                 }else {
-                    //TODO 加弹窗
-                    System.out.println("失败++++++++++++++++");
+                    Message message = handler.obtainMessage();
+                    message.obj = "ERROR," + "创建一个新订单失败";
+                    handler.sendMessage(message);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -226,28 +244,49 @@ public class sell_addNewOrder extends Activity {
             for(int i=1;i<childs.length;i++){
                 childs[i] = (TableRow) addOderItem_tableLayout.getChildAt(i);
                 //提取出每一行
-                String product_name = ((TextView)childs[i].getChildAt(0)).getText().toString();//提取产品名字列
+                String product_name_tmp = ((TextView)childs[i].getChildAt(0)).getText().toString();//提取产品名字列
                 String num = ((TextView)childs[i].getChildAt(1)).getText().toString();//提取数量列
-                String outprice = ((TextView)childs[i].getChildAt(2)).getText().toString();//提取出售价列
                 String price_all = ((TextView)childs[i].getChildAt(3)).getText().toString();//提取订单项总价列
                 //将每一行的利润和总售价加起来
                 profit+=Float.valueOf(profitList.get(i-1));
                 order_price_all+=Float.valueOf(price_all);
                 //将每一行插入数据库
                 JSONArray jsonArray=db.executeInsert(belongtoString+"_item_order(order_id,product_name,num)",
-                        "'"+order_id+"','"+product_name+"',"+num);
-                //TODO 库存中商品数量  等待更新减少
-//                db.executeUpdate(belongtoString,"num",)
-                System.out.println(product_name+" "+num+" "+outprice+" "+price_all+" "+ profitList.get(i-1));
+                        "'"+order_id+"','"+product_name_tmp+"',"+num);
+                int targetNum=Integer.valueOf(dataNum)-Integer.valueOf(num);
+                //将库存中的数量减少
+                db.executeUpdate(belongtoString,"num",String.valueOf(targetNum),"name","'"+product_name_tmp+"'");
+//                System.out.println(product_name+" "+num+" "+outprice+" "+price_all+" "+ profitList.get(i-1));
+                addOderItem_tableLayout.removeView(childs[i]);
             }
             //订单中更新总价和利润
             db.executeUpdate(belongtoString+"_order","price_all",
                     String.valueOf(order_price_all),"id",order_id);
             db.executeUpdate(belongtoString+"_order","profit",
                     String.valueOf(profit),"id",order_id);
-            //将此页面下的table清空
-            addOderItem_tableLayout.removeAllViews();
-            table_orderitem.initHeader(name, sell_addNewOrder.this, R.id.table_addOrder);
+        }
+    }
+
+    class ButtonListener_toFrom implements View.OnClickListener {
+        private Class toActivity;
+
+        public ButtonListener_toFrom(Class activity){
+            this.toActivity=activity;
+        }
+        public void onClick(View v) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // todo
+                    Intent intent = new Intent();
+                    //setClass函数的第一个参数是一个Context对象
+                    //Context是一个类，Activity是Context类的子类，也就是说，所有的Activity对象，都可以向上转型为Context对象
+                    //setClass函数的第二个参数是一个Class对象，在当前场景下，应该传入需要被启动的Activity类的class对象
+                    intent.setClass(sell_addNewOrder.this, toActivity);
+                    intent.putExtra("user_name",user_name);
+                    startActivity(intent);
+                }
+            }).start();
         }
     }
 }

@@ -3,11 +3,14 @@ package com.example.myapplication;
 import Table.MyTableTextView;
 import android.app.Activity;
 import android.graphics.Color;
+import android.widget.CheckBox;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static com.example.myapplication.R.id.*;
 
 public class table {
     public void initHeader(String[] name, Activity activity,int table_id) {
@@ -36,6 +39,28 @@ public class table {
                     textview.setText(String.valueOf(jsonObject.get(name[j])));
                     tablerow.addView(textview);
                 }
+                table.addView(tablerow);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void showDataWithCheckBox(JSONArray results,Activity activity,String[] name,int table_id){
+        //初始化数据
+        TableLayout table = activity.findViewById(table_id);
+        table.setStretchAllColumns(true);//自动填充空白处
+        for (int i=0;i<results.length();i++) {
+            TableRow tablerow = new TableRow(activity);
+            try {
+                JSONObject jsonObject= (JSONObject) results.get(i);
+                for(int j=0;j<name.length-1;j++){
+                    MyTableTextView textview = new MyTableTextView(activity,Color.BLACK);
+                    textview.setText(String.valueOf(jsonObject.get(name[j])));
+                    tablerow.addView(textview);
+                }
+                CheckBox checkBox = new CheckBox(activity);
+                tablerow.addView(checkBox);
                 table.addView(tablerow);
             } catch (JSONException e) {
                 e.printStackTrace();

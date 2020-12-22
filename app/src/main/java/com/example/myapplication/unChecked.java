@@ -10,16 +10,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class allStock extends Activity {
-    private final String[] name={"id","name","num","inprice","outprice","outprice_wholesale"};
+public class unChecked extends Activity {
+    private final String[] name={"id","name","price_all","state","stateChange"};
     private database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.no_bottombtn_tableandtop);
+        setContentView(R.layout.shopkeeper_sell_unchecked);
         TextView textView=findViewById(R.id.textView1);
-        textView.setText("库存");
+        textView.setText("待审核");
         //获取共享的数据库类
         DBapplication dBapplication=(DBapplication)getApplication();
         this.db=dBapplication.getDB();
@@ -41,6 +41,6 @@ public class allStock extends Activity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        table.showData(db.executeFindAll(belongtoString,"repository"),this,name,R.id.MyTableData);
+        table.showDataWithCheckBox(db.executeFindAll(belongtoString+"_order","order"),this,name,R.id.MyTableData);
     }
 }
