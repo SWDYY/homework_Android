@@ -211,11 +211,11 @@ public class sell_addNewOrder extends Activity {
 
         private String convertTOJSON() {
             String result = "{";
-            product_name = "\"product_name\":" + product_name + ",";
-            inputNum = "\"num\":\"" + inputNum + "\",";
-            outprice = "\"outprice\":\"" + outprice + "\",";
-            price_all = "\"price_all\":\"" + price_all + "\"}";
-            return result + product_name + inputNum + outprice + price_all;
+            String product_name_tmp = "\"product_name\":" + product_name + ",";
+            String inputNum_tmp = "\"num\":\"" + inputNum + "\",";
+            String outprice_tmp = "\"outprice\":\"" + outprice + "\",";
+            String price_all_tmp = "\"price_all\":\"" + price_all + "\"}";
+            return result + product_name_tmp + inputNum_tmp + outprice_tmp + price_all_tmp;
         }
     }
 
@@ -266,13 +266,14 @@ public class sell_addNewOrder extends Activity {
                 //将库存中的数量减少
                 db.executeUpdate(belongtoString, "num", String.valueOf(targetNum), "name", "'" + product_name_tmp + "'");
 //                System.out.println(product_name+" "+num+" "+outprice+" "+price_all+" "+ profitList.get(i-1));
-                addOderItem_tableLayout.removeView(childs[i]);
             }
             //订单中更新总价和利润
             db.executeUpdate(belongtoString + "_order", "price_all",
                     String.valueOf(order_price_all), "id", order_id);
             db.executeUpdate(belongtoString + "_order", "profit",
                     String.valueOf(profit), "id", order_id);
+            addOderItem_tableLayout.removeAllViews();
+            table_orderitem.initHeader(name,sell_addNewOrder.this,R.id.table_addOrder);
         }
     }
 }

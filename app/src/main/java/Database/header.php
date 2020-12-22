@@ -12,6 +12,8 @@ function returnClassBytype($type){
         case "update":
         case "insert":
             return new insertORupdate();
+        case "item_order":
+            return new item_order();
     }
 }
 class login implements header
@@ -218,7 +220,39 @@ class insertORupdate implements header {
         }
     }
 }
-
+class item_order implements header
+{
+    public $count=3;
+    public $order_id="";
+    public $product_name="";
+    public $num="";
+    function getName($idNum)
+    {
+        switch ($idNum){
+            case 1:
+                return"order_id";
+            case 2:
+                return"product_name";
+            case 3:
+                return"num";
+            default:break;
+        }
+    }
+    public function setData($idNum,$value){
+        switch ($idNum){
+            case 1:
+                $this->order_id=$value;
+                break;
+            case 2:
+                $this->product_name=$value;
+                break;
+            case 3:
+                $this->num=$value;
+                break;
+            default:break;
+        }
+    }
+}
 interface header{
     function setData($idNum,$value);
     function getName($idNum);

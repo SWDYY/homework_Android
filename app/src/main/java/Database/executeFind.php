@@ -14,11 +14,11 @@ $tableName=$_POST["tableName"];
 $index=$_POST["index"];
 $value=$_POST["value"];
 $type=$_POST["type"];
-
-//$tablename="customermanager";
+//
+//$tableName="repository1";
 //$index="name";
-//$value="'asdasd'";
-//$type="customer";
+//$value="'paper'";
+//$type="repository";
 
 $link = connectToDB();
 
