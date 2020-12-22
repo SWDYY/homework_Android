@@ -17,6 +17,7 @@ public class unPaid extends Activity {
     private database db;
     private table table=new table();
     private Button button_head_save;
+    private Button ButtonHeadReturnMain;
     private Button ButtonBottom_addNewOrder;
     private Button ButtonBottom_unchecked;
     private Button ButtonBottom_finished;
@@ -35,6 +36,7 @@ public class unPaid extends Activity {
 
         button_head_save=findViewById(R.id.save);
         ButtonBottom_addNewOrder= findViewById(R.id.radio0);
+        ButtonHeadReturnMain=findViewById(R.id.returnMain);
         ButtonBottom_unchecked = findViewById(R.id.radio1);
         ButtonBottom_finished = findViewById(R.id.radio3);
         ButtonBottom_unreturned = findViewById(R.id.radio4);
@@ -45,6 +47,7 @@ public class unPaid extends Activity {
         ButtonBottom_unreturned.setOnClickListener(new jumpFromTo(this,unReturned.class,user_name,belongToString));
         ButtonBottom_returned.setOnClickListener(new jumpFromTo(this,returned.class,user_name,belongToString));
         button_head_save.setOnClickListener(new changeState());
+        ButtonHeadReturnMain.setOnClickListener(new jumpFromTo(this,shopkeeperCircleMainUI.class,user_name,belongToString));
 
         TextView textView=findViewById(R.id.textView1);
         textView.setText("待付款");

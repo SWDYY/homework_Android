@@ -29,6 +29,7 @@ public class jumpFromTo implements View.OnClickListener {
                 intent.setClass(from, toActivity);
                 intent.putExtra("user_name", user_name);
                 intent.putExtra("belongTo", belongTo);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 from.startActivity(intent);
             }
         }).start();

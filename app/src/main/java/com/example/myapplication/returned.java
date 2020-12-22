@@ -16,7 +16,7 @@ public class returned extends Activity {
     private final String[] name={"id","name","price_all","state"};
     private database db;
     private table table=new table();
-
+    private Button ButtonHeadReturnMain;
     private Button button_head_save;
     private Button ButtonBottom_addNewOrder;
     private Button ButtonBottom_unchecked;
@@ -35,6 +35,7 @@ public class returned extends Activity {
         belongToString =bundle.getString("belongTo");
 
         button_head_save=findViewById(R.id.save);
+        ButtonHeadReturnMain=findViewById(R.id.returnMain);
         ButtonBottom_addNewOrder= findViewById(R.id.radio0);
         ButtonBottom_unchecked = findViewById(R.id.radio1);
         ButtonBottom_unpaid = findViewById(R.id.radio2);
@@ -46,6 +47,7 @@ public class returned extends Activity {
         ButtonBottom_finished.setOnClickListener(new jumpFromTo(this,finished.class,user_name,belongToString));
         ButtonBottom_unreturned.setOnClickListener(new jumpFromTo(this,unReturned.class,user_name,belongToString));
         button_head_save.setVisibility(View.GONE);
+        ButtonHeadReturnMain.setOnClickListener(new jumpFromTo(this,shopkeeperCircleMainUI.class,user_name,belongToString));
 
         TextView textView=findViewById(R.id.textView1);
         textView.setText("已退货");

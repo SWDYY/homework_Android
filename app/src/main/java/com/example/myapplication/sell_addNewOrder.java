@@ -27,6 +27,7 @@ public class sell_addNewOrder extends Activity {
     private Button button_find_product;
     private Button button_save;//保存
     private Button Button_add_newOrderItem;
+    private Button ButtonHeadReturnMain;
     private Button ButtonBottom_unchecked;
     private Button ButtonBottom_unpaid;
     private Button ButtonBottom_finished;
@@ -81,6 +82,7 @@ public class sell_addNewOrder extends Activity {
         //绑定按钮
         button_findCustomer = findViewById(R.id.find_customerButton);
         button_find_product = findViewById(R.id.find_product_Button);
+        ButtonHeadReturnMain=findViewById(R.id.returnMain);
         button_save = findViewById(R.id.save);
         edit_find_customer = findViewById(R.id.find_customer);
         customerClassification = findViewById(R.id.textview_customerClassification);
@@ -108,7 +110,7 @@ public class sell_addNewOrder extends Activity {
         ButtonBottom_finished.setOnClickListener(new jumpFromTo(this,finished.class,user_name,belongtoString));
         ButtonBottom_unreturned.setOnClickListener(new jumpFromTo(this,unReturned.class,user_name,belongtoString));
         ButtonBottom_returned.setOnClickListener(new jumpFromTo(this,returned.class,user_name,belongtoString));
-
+        ButtonHeadReturnMain.setOnClickListener(new jumpFromTo(this,shopkeeperCircleMainUI.class,user_name,belongtoString));
         //初始化表头
         table_orderitem = new table();
         table_orderitem.initHeader(name, this, R.id.table_addOrder);

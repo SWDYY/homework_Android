@@ -16,6 +16,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
+    <Button
+            android:id="@+id/returnMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="55px"
+            android:text="主页"
+    >
+    </Button>
 
     <LinearLayout
             android:layout_width="wrap_content"

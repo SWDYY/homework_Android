@@ -18,6 +18,7 @@ public class unChecked extends Activity {
     private database db;
     private table table=new table();
     private Button button_head_save;
+    private Button ButtonHeadReturnMain;
     private Button ButtonBottom_addNewOrder;
     private Button ButtonBottom_unpaid;
     private Button ButtonBottom_finished;
@@ -33,6 +34,7 @@ public class unChecked extends Activity {
         Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据
         user_name=bundle.getString("user_name");//getString()返回指定key的值
         belongToString =bundle.getString("belongTo");
+        ButtonHeadReturnMain=findViewById(R.id.returnMain);
         button_head_save=findViewById(R.id.save);
         ButtonBottom_addNewOrder= findViewById(R.id.radio0);
         ButtonBottom_unpaid = findViewById(R.id.radio2);
@@ -45,6 +47,7 @@ public class unChecked extends Activity {
         ButtonBottom_unreturned.setOnClickListener(new jumpFromTo(this,unReturned.class,user_name,belongToString));
         ButtonBottom_returned.setOnClickListener(new jumpFromTo(this,returned.class,user_name,belongToString));
         button_head_save.setOnClickListener(new changeState());
+        ButtonHeadReturnMain.setOnClickListener(new jumpFromTo(this,shopkeeperCircleMainUI.class,user_name,belongToString));
 
         TextView textView=findViewById(R.id.textView1);
         textView.setText("待审核");

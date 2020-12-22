@@ -17,6 +17,7 @@ public class finished extends Activity {
     private database db;
     private table table=new table();
 
+    private Button ButtonHeadReturnMain;
     private Button button_head_save;
     private Button ButtonBottom_addNewOrder;
     private Button ButtonBottom_unchecked;
@@ -34,6 +35,7 @@ public class finished extends Activity {
         user_name=bundle.getString("user_name");//getString()返回指定key的值
         belongToString =bundle.getString("belongTo");
 
+        ButtonHeadReturnMain=findViewById(R.id.returnMain);
         button_head_save=findViewById(R.id.save);
         ButtonBottom_addNewOrder= findViewById(R.id.radio0);
         ButtonBottom_unchecked = findViewById(R.id.radio1);
@@ -46,6 +48,7 @@ public class finished extends Activity {
         ButtonBottom_unreturned.setOnClickListener(new jumpFromTo(this,unReturned.class,user_name,belongToString));
         ButtonBottom_returned.setOnClickListener(new jumpFromTo(this,returned.class,user_name,belongToString));
         button_head_save.setOnClickListener(new changeState());
+        ButtonHeadReturnMain.setOnClickListener(new jumpFromTo(this,shopkeeperCircleMainUI.class,user_name,belongToString));
 
         TextView textView=findViewById(R.id.textView1);
         textView.setText("已完成");
