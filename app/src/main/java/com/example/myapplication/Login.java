@@ -16,7 +16,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Login extends Activity {
-
     private Button btnLogin;//登录按钮
     private EditText user_name;
     private EditText user_password;
@@ -76,10 +75,6 @@ public class Login extends Activity {
                         if (result.getString("authority").equals("manager")) {
                             user_password.setText("");
                             Intent intent = new Intent();
-                            //setClass函数的第一个参数是一个Context对象
-                            //Context是一个类，Activity是Context类的子类，也就是说，所有的Activity对象，都可以向上转型为Context对象
-                            //setClass函数的第二个参数是一个Class对象，在当前场景下，应该传入需要被启动的Activity类的class对象
-
                             intent.setClass(Login.this, allProduct.class);
                             startActivity(intent);
                         } else if (result.getString("authority").equals("shopkeeper")) {

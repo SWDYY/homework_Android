@@ -65,5 +65,25 @@
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                 android:label="unChecked" >
         </activity>
+        <activity
+                android:name="com.example.myapplication.unPaid"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                android:label="unPaid" >
+        </activity>
+        <activity
+                android:name="com.example.myapplication.finished"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                android:label="finished" >
+        </activity>
+        <activity
+                android:name="com.example.myapplication.unReturned"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                android:label="unReturned" >
+        </activity>
+        <activity
+                android:name="com.example.myapplication.returned"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                android:label="returned" >
+        </activity>
     </application>
 </manifest>
