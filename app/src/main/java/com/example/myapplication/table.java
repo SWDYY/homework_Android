@@ -63,6 +63,7 @@ public class table {
                         tablerow.addView(textview);
                     }
                     CheckBox checkBox = new CheckBox(activity);
+                    checkBox.setHeight(80);
                     tablerow.addView(checkBox);
                     table.addView(tablerow);
                 } catch (JSONException e) {

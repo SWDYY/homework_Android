@@ -20,6 +20,8 @@ public class MyTableTextView extends TextView {
         super(context);
         paint.setColor(Color.BLACK);// 为边框设置颜色
         this.setTextColor(textcolor);//为文字设置颜色
+        this.setHeight(80);
+        this.setTextSize(20);
     }
 
     @Override
