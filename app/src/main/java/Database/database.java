@@ -35,12 +35,73 @@ public class database extends Application {
         return response;
     }
 
-    /*查询数据库某表中全部数据*/
+    //查找数据库中某一个表中具有最大id的一行
+    public JSONArray executeFindMAXID(String tableName,String type) {
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                response= executeHttpFind(host+"findMAX_id.php",tableName,null,null,type);
+            }
+        });
+        thread.start();
+        try {
+            thread.join();//等待当前线程执行完毕
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    /**查询数据库某表中全部数据*/
     public JSONArray executeFindAll(String tableName,String type) {
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
                 response= executeHttpFind(host+"executeFindAll.php",tableName,null,null,type);
+            }
+        });
+        thread.start();
+        try {
+            thread.join();//等待当前线程执行完毕
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public JSONArray executeUpdate(String tablename,String target_index,String target_value,String index,String index_value){
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String tmp = null;
+                try {
+                    tmp = index+"&"+ (URLEncoder.encode("", "UTF-8") + "index_value=" +
+                            URLEncoder.encode(index_value, "UTF-8")   +"&"+ (URLEncoder.encode("target_index", "UTF-8") + "=" +
+                            URLEncoder.encode(target_index, "UTF-8") + "&" +
+                            URLEncoder.encode("target_value", "UTF-8") + "=" + URLEncoder.encode(target_value, "UTF-8")));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                response= executeHttpFind(host+"executeUpdate.php",tablename,tmp,null,"update");
+            }
+        });
+        thread.start();
+        try {
+            thread.join();//等待当前线程执行完毕
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    /**
+     * 向数据库中插入一条数据
+     */
+    public JSONArray executeInsert(String tablename,String value){
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                response= executeHttpFind(host+"executeInsert.php",tablename,null,value,"insert");
             }
         });
         thread.start();
@@ -120,7 +181,13 @@ public class database extends Application {
                 data = URLEncoder.encode("tableName", "UTF-8") + "=" + URLEncoder.encode(tableName, "UTF-8");
             }
             if (index!=null){
-                data=data+"&" + URLEncoder.encode("index", "UTF-8") + "=" + URLEncoder.encode(index, "UTF-8");
+                String tmp[]=index.split("&");
+                if (tmp.length>1){
+                    data=data+"&" + URLEncoder.encode("index", "UTF-8") + "=" + URLEncoder.encode(tmp[0],
+                            "UTF-8")+"&"+tmp[1]+"&"+tmp[2]+"&"+tmp[3];
+                }else {
+                    data=data+"&" + URLEncoder.encode("index", "UTF-8") + "=" + URLEncoder.encode(index, "UTF-8");
+                }
             }
             if (value!=null){
                 data=data+"&" + URLEncoder.encode("value", "UTF-8") + "=" + URLEncoder.encode(value, "UTF-8");

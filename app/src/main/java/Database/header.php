@@ -9,6 +9,9 @@ function returnClassBytype($type){
             return new customer();
         case "order":
             return new order();
+        case "update":
+        case "insert":
+            return new insertORupdate();
     }
 }
 class login implements header
@@ -193,6 +196,29 @@ class repository implements header {
         }
     }
 }
+class insertORupdate implements header {
+    public $flag="";
+
+    function setData($idNum, $value)
+    {
+        switch ($idNum) {
+            case 1:
+                $this->flag = $value;
+                break;
+            default:break;
+        }
+    }
+
+    function getName($idNum)
+    {
+        switch ($idNum) {
+            case 1:
+                return "flag";
+            default:break;
+        }
+    }
+}
+
 interface header{
     function setData($idNum,$value);
     function getName($idNum);

@@ -10,14 +10,14 @@ require_once __DIR__ . '/connect.php';//引用connect.php
 require_once __DIR__ . '/header.php';//引用connect.php
 
 //等待传入的参数
-$tablename=$_POST["tableName"];
+$tableName=$_POST["tableName"];
 $index=$_POST["index"];
 $value=$_POST["value"];
 $type=$_POST["type"];
 
 //$tablename="customermanager";
 //$index="name";
-//$value="'sxz'";
+//$value="'asdasd'";
 //$type="customer";
 
 $link = connectToDB();
@@ -26,7 +26,7 @@ if($link->connect_error){
     die($link->connect_error);
 }
 
-$sql = "select * from $tablename where $index=$value";
+$sql = "select * from $tableName where $index=$value";
 //echo $sql;//显示查询语句
 $res=$link->query($sql);
 //构造成JSON语言格式
