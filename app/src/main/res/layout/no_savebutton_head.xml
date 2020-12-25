@@ -21,7 +21,15 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center">
-
+        <Button
+                android:id="@+id/add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="55px"
+                android:text="新增"
+        >
+        </Button>
     </LinearLayout>
 
 </LinearLayout>
