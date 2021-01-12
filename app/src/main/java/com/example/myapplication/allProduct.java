@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import Database.database;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +18,7 @@ import org.json.JSONObject;
 public class allProduct extends Activity {
     private String[] name={"id","name","outprice"};
     private database db;
+    private Button add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +26,8 @@ public class allProduct extends Activity {
         setContentView(R.layout.no_bottombtn_tableandtop);
         TextView textView=findViewById(R.id.textView1);
         textView.setText("全部商品");
-//        mainLinerLayout = this.findViewById(R.id.MyTable);
+        add=findViewById(R.id.add);
+        add.setVisibility(View.GONE);//因为没用增加权限，设置为不可见
         //获取共享的数据库类
         DBapplication dBapplication=(DBapplication)getApplication();
         this.db=dBapplication.getDB();

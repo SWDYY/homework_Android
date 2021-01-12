@@ -10,7 +10,7 @@
             android:layout_height="wrap_content"
             android:background="#169ee5"
             android:gravity="center"
-            android:text="新增客户"
+            android:text="进货"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
@@ -18,23 +18,14 @@
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入用户姓名"
+            android:hint="请输入货品名字"
             android:textSize="18sp" />
 
     <EditText
             android:id="@+id/et_num"
-            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入手机号"
-            android:textSize="18sp" />
-
-    <EditText
-            android:id="@+id/et_type"
-            android:inputType="textPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="请输入类型"
+            android:hint="请输入进货数量"
             android:textSize="18sp" />
     <LinearLayout
             android:layout_width="match_parent"
@@ -53,16 +44,17 @@
                 android:background="#169ee5"
                 android:text="取消"
                 android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:textSize="26dp" />
+        <!--      layout_marginRight  距离右边距离为10-->
 
         <Button
-                android:id="@+id/btn_login"
+                android:id="@+id/btn_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#169ee5"
                 android:text="确定"
                 android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:textSize="26dp" />
     </LinearLayout>
 </LinearLayout>

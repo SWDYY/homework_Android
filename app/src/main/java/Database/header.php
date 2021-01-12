@@ -5,7 +5,7 @@ function returnClassBytype($type){
             return new login();
         case "repository":
             return new repository();
-        case "customer":
+        case "add_customer":
             return new customer();
         case "order":
             return new order();

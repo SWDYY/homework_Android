@@ -157,7 +157,7 @@ public class sell_addNewOrder extends Activity {
                 @Override
                 public void run() {
                     String name = "'" + String.valueOf(edit_find_customer.getText()) + "'";
-                    JSONArray find_name = db.executeFind("customermanager", "name", name, "customer");
+                    JSONArray find_name = db.executeFind("customermanager", "name", name, "add_customer");
                     if (find_name.length() == 0) {
                         Message message = handler.obtainMessage();
                         message.obj = "ERROR," + "未查到相关客户，请新增客户或重新输入";
@@ -267,7 +267,6 @@ public class sell_addNewOrder extends Activity {
                 int targetNum = Integer.valueOf(dataNum) - Integer.valueOf(num);
                 //将库存中的数量减少
                 db.executeUpdate(belongtoString, "num", String.valueOf(targetNum), "name", "'" + product_name_tmp + "'");
-//                System.out.println(product_name+" "+num+" "+outprice+" "+price_all+" "+ profitList.get(i-1));
             }
             //订单中更新总价和利润
             db.executeUpdate(belongtoString + "_order", "price_all",

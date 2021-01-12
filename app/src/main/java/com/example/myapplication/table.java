@@ -73,7 +73,7 @@ public class table {
         }
     }
 
-    public void addData(JSONObject jsonObject, Activity activity, String[] name, int table_id) {
+    public static void addData(JSONObject jsonObject, Activity activity, String[] name, int table_id) {
         TableLayout table = activity.findViewById(table_id);
         TableRow tablerow = new TableRow(activity);
         for (int j = 0; j < name.length; j++) {

@@ -5,6 +5,8 @@ import Database.database;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,12 +15,15 @@ import org.json.JSONObject;
 public class allEmployee extends Activity {
     private final String[] name={"user_name","phonenum","authority","belongto"};
     private database db;
+    private Button add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.no_bottombtn_tableandtop);
         TextView textView=findViewById(R.id.textView1);
+        add=findViewById(R.id.add);
+        add.setVisibility(View.GONE);//因为没用增加权限，设置为不可见
         textView.setText("员工详情");
         //获取共享的数据库类
         DBapplication dBapplication=(DBapplication)getApplication();

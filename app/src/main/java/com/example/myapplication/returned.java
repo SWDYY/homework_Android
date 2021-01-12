@@ -46,7 +46,7 @@ public class returned extends Activity {
         ButtonBottom_unpaid.setOnClickListener(new jumpFromTo(this,unPaid.class,user_name,belongToString));
         ButtonBottom_finished.setOnClickListener(new jumpFromTo(this,finished.class,user_name,belongToString));
         ButtonBottom_unreturned.setOnClickListener(new jumpFromTo(this,unReturned.class,user_name,belongToString));
-        button_head_save.setVisibility(View.GONE);
+        button_head_save.setVisibility(View.GONE);//设置为不可见
         ButtonHeadReturnMain.setOnClickListener(new jumpFromTo(this,shopkeeperCircleMainUI.class,user_name,belongToString));
 
         TextView textView=findViewById(R.id.textView1);

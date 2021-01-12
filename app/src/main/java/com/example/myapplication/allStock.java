@@ -2,10 +2,17 @@ package com.example.myapplication;
 
 import Database.DBapplication;
 import Database.database;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +20,118 @@ import org.json.JSONObject;
 public class allStock extends Activity {
     private final String[] name={"id","name","num","inprice","outprice","outprice_wholesale"};
     private database db;
+    private String belongtoString="";
+    private String id = null;
+    private String product_name = null;
+    private String num = null;
+    private String inprice = null;
+    private String outprice = null;
+    private String outprice_wholesale = null;
+
+    @SuppressLint("HandlerLeak")
+    private final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(allStock.this);
+
+            final AlertDialog dialog = builder.create();
+            View dialogView = View.inflate(allStock.this, R.xml.add_stock, null);
+            dialog.setView(dialogView);
+            dialog.show();
+            //设置大小
+            WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+            params.width = 600; params.height = 800 ;
+            dialog.getWindow().setAttributes(params);
+
+            final EditText et_name = dialogView.findViewById(R.id.et_name);
+            final EditText et_num = dialogView.findViewById(R.id.et_num);
+            final Button btn_login = dialogView.findViewById(R.id.btn_save);
+            final Button btn_cancel = dialogView.findViewById(R.id.btn_cancel);
+
+            btn_login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    product_name = et_name.getText().toString();
+                    num = et_num.getText().toString();
+                    if (TextUtils.isEmpty(product_name) || TextUtils.isEmpty(num)) {
+                        Toast.makeText(allStock.this, "货品名，数目不能为空!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }else if (!num.matches("[0-9]+")){
+                        Toast.makeText(allStock.this, "货品数目必须为数字组成!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else{
+                        try {
+                            //先去总仓库查找是否有这个商品
+                            JSONArray find_product_repositoryAll = db.executeFind("repository_all", "name",
+                                    "'"+et_name.getText().toString()+"'", "repository");
+                            if (find_product_repositoryAll.length() == 0) {
+                                Toast.makeText(allStock.this, "总仓库中没有次商品，无法进货!", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            /*如果总仓库有，在自己的仓库中添加此商品*/
+                            JSONObject addStock_jsonObject = (JSONObject) find_product_repositoryAll.get(0);
+                            int oldNum=Integer.valueOf(addStock_jsonObject.getString("num"));
+                            if (oldNum<Integer.valueOf(num)){
+                                Toast.makeText(allStock.this, "总仓库中商品数量不够，库存为"+oldNum+"无法进货!", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            //更新总仓库的商品数量
+                            String newNum_repositoryALl=String.valueOf(oldNum-Integer.valueOf(num));
+                            db.executeUpdate("repository_all", "num", newNum_repositoryALl,
+                                    "name", "'" + product_name + "'");
+                            //在自己的仓库查找一下有么有，有的话更新数量，而不是增加一行
+                            JSONArray find_product_repositorySelf = db.executeFind(belongtoString, "name",
+                                    "'"+et_name.getText().toString()+"'", "repository");
+                            if (find_product_repositorySelf.length()>0){
+                                JSONObject productMyRepository_jsonObject = (JSONObject) find_product_repositoryAll.get(0);
+                                int myNum=Integer.valueOf(productMyRepository_jsonObject.getString("num"));
+                                String newNum_repositorySelf=String.valueOf(myNum+Integer.valueOf(num));
+                                db.executeUpdate(belongtoString, "num", newNum_repositorySelf,
+                                        "name", "'" + product_name + "'");
+                                dialog.dismiss();
+                                return;
+                            }
+                            //自己仓库中没有，在自己仓库中增加一行
+                            inprice=addStock_jsonObject.getString("inprice");
+                            outprice=addStock_jsonObject.getString("outprice");
+                            outprice_wholesale=addStock_jsonObject.getString("outprice_wholesale");
+                            db.executeInsert(belongtoString+"(name,num,inprice,outprice,outprice_wholesale)",
+                                    "'"+ product_name +"','"+ num+"','"+inprice+"','"+outprice+"','"+outprice_wholesale+"'");
+                            //查找最新的id
+                            JSONArray id_JSONArray = db.executeFindMAXID("customermanager", "add_customer");
+                            JSONObject id_jsonObject = (JSONObject) id_JSONArray.get(0);
+                            id=id_jsonObject.getString("id");
+                            JSONObject jsonObject = new JSONObject(convertTOJSON());
+                            table.addData(jsonObject, allStock.this, name, R.id.MyTableData);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    dialog.dismiss();
+                }
+
+                private String convertTOJSON() {
+                    String result = "{";
+                    String id_tmp = "\"id\":" + id + ",";
+                    String name_tmp = "\"name\":\"" + product_name + "\",";
+                    String num_tmp = "\"num\":\"" + num + "\",";
+                    String inprice_tmp = "\"inprice\":\"" + inprice + "\",";
+                    String outprice_tmp = "\"outprice\":\"" + outprice + "\",";
+                    String outprice_wholesale_tmp = "\"outprice_wholesale\":\"" + outprice_wholesale + "\"}";
+                    return result + id_tmp + name_tmp + num_tmp + inprice_tmp+outprice_tmp+outprice_wholesale_tmp;
+                }
+            });
+
+            btn_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +150,6 @@ public class allStock extends Activity {
         Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据
         String user_name=bundle.getString("user_name");//getString()返回指定key的值
         JSONArray belongto=db.executeFind("login","user_name","'"+user_name+"'","login");
-        String belongtoString="";
         try {
             JSONObject jsonObject= (JSONObject) belongto.get(0);
             belongtoString=jsonObject.getString("belongto");
@@ -42,5 +160,20 @@ public class allStock extends Activity {
             e.printStackTrace();
         }
         table.showData(db.executeFindAll(belongtoString,"repository"),this,name,R.id.MyTableData);
+        Button btnadd = findViewById(R.id.add);//控件与代码绑定
+        btnadd.setOnClickListener(new ButtonListener());//使用点击事件
+    }
+    class ButtonListener implements View.OnClickListener {
+
+        public void onClick(View v) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // todo
+                    Message message = handler.obtainMessage();
+                    handler.sendMessage(message);
+                }
+            }).start();
+        }
     }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="customer_type">
+        <item>retail</item>
+        <item>wholesaler</item>
+    </string-array>
+</resources>
