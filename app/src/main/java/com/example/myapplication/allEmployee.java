@@ -40,12 +40,13 @@ public class allEmployee extends Activity {
         try {
             JSONObject jsonObject= (JSONObject) belongto.get(0);
             belongtoString=jsonObject.getString("belongto");
-            if (belongtoString.equals("all")){
-                belongtoString="repository_all";
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        table.showData(db.executeFind("login","belongto","'"+belongtoString+"'","login"),this,name,R.id.MyTableData);
+        if (belongtoString.equals("all")){
+            table.showData(db.executeFindAll("login","login"),this,name,R.id.MyTableData);
+        }else{
+            table.showData(db.executeFind("login","belongto","'"+belongtoString+"'","login"),this,name,R.id.MyTableData);
+        }
     }
 }

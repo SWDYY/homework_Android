@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:hint="请输入手机号"
             android:textSize="18sp" />
-        <Spinner
+    <Spinner
             android:id="@+id/spinner_type"
             android:hint="请选择类型"
             android:layout_width="wrap_content"

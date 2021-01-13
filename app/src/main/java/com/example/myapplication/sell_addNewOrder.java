@@ -49,7 +49,6 @@ public class sell_addNewOrder extends Activity {
     private set_Editview_noInput findProduct_set_editview_noInput;
     private set_Editview_canInput findCustomer_set_editview_canInput;
     private set_Editview_canInput findProduct_set_editview_canInput;
-
     private String[] name = {"product_name", "num", "outprice", "price_all"};
 
     @Override
@@ -91,11 +90,6 @@ public class sell_addNewOrder extends Activity {
                 setContentView(R.layout.employee_sell);
                 ButtonHeadReturnMain=findViewById(R.id.returnMain);
                 ButtonHeadReturnMain.setOnClickListener(new jumpFromTo(this,employeeCircleMainUI.class,user_name,belongtoString));
-                break;
-            case "manager":
-                belongtoString = "repository_all";
-                //@TODO 还未增加经理的布局
-                setContentView(R.layout.shopkeeper_sell);
                 break;
         }
         TextView textView = findViewById(R.id.textView1);
@@ -152,7 +146,7 @@ public class sell_addNewOrder extends Activity {
                             inpriceString = jsonObject.getString("inprice");
                             product_name = jsonObject.getString("name");
 
-                            Message message = findCustomer_set_editview_noInput.obtainMessage();
+                            Message message = findProduct_set_editview_noInput.obtainMessage();
                             findProduct_set_editview_noInput.sendMessage(message);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -197,7 +191,7 @@ public class sell_addNewOrder extends Activity {
             String num_input = String.valueOf(edit_addNewProduct_num.getText());
             if (num_input.equals("")) {
                 Message message = handler.obtainMessage();
-                message.obj = "ERROR," + "商品数目为0，不能增加";
+                message.obj = "ERROR," + "商品数目为空，不能增加";
                 handler.sendMessage(message);
             } else if (!num_input.matches("[0-9]+")) {
                 Message message = handler.obtainMessage();
@@ -260,6 +254,7 @@ public class sell_addNewOrder extends Activity {
                     Message message = handler.obtainMessage();
                     message.obj = "ERROR," + "创建一个新订单失败";
                     handler.sendMessage(message);
+                    return;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

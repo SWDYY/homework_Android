@@ -14,6 +14,8 @@ function returnClassBytype($type){
             return new insertORupdate();
         case "item_order":
             return new item_order();
+        case "repository_name":
+            return new repository_name();
     }
 }
 class login implements header
@@ -248,6 +250,33 @@ class item_order implements header
                 break;
             case 3:
                 $this->num=$value;
+                break;
+            default:break;
+        }
+    }
+}
+class repository_name implements header
+{
+    public $count=2;
+    public $id="";
+    public $name="";
+    function getName($idNum)
+    {
+        switch ($idNum){
+            case 1:
+                return"id";
+            case 2:
+                return"name";
+            default:break;
+        }
+    }
+    public function setData($idNum,$value){
+        switch ($idNum){
+            case 1:
+                $this->id=$value;
+                break;
+            case 2:
+                $this->name=$value;
                 break;
             default:break;
         }

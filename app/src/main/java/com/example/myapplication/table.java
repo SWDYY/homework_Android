@@ -19,6 +19,12 @@ public class table {
     private  final long CLICK_INTERVAL_TIME = 300;
     private  long lastClickTime = 0;
 
+    public void clearTable(Activity activity, int table_id){
+        //初始化标题
+        TableLayout table = activity.findViewById(table_id);
+        table.removeAllViews();
+    }
+
     public void initHeader(String[] name, Activity activity, int table_id) {
         //初始化标题
         TableLayout table = activity.findViewById(table_id);

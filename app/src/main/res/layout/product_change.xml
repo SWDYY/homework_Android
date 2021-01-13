@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/shopkeeper"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/white"
+              android:orientation="vertical" >
+    <!-- head -->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        <include
+                android:id="@+id/head_layout"
+                layout="@layout/has_savebutton_head"/>
+    </LinearLayout>
+    <TableLayout
+            android:id="@+id/product_change"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <TableRow  android:padding="10dp">
+            <TextView
+                    android:gravity="left"
+                    android:textStyle="bold"
+                    android:padding="3dip"
+                    android:text="调出仓库"
+                    android:textSize="55px"
+                    android:textColor="@android:color/black"
+            />
+            <Spinner
+                    android:id="@+id/spinner_repository_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+            />
+        </TableRow>
+        <TableRow android:padding="10dp">
+            <TextView
+                    android:gravity="left"
+                    android:textStyle="bold"
+                    android:padding="3dip"
+                    android:text="调入仓库"
+                    android:textSize="55px"
+                    android:textColor="@android:color/black"
+            />
+            <Spinner
+                    android:id="@+id/spinner_repository_to"
+                    android:textColor="@android:color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+            />
+        </TableRow>
+        <TableRow  android:padding="10dp">
+            <EditText
+                    android:id="@+id/edit_addNewProduct_name"
+                    android:padding="3dip"
+                    android:scrollHorizontally="true"
+                    android:inputType="textNoSuggestions"
+                    android:minWidth="200dp"
+                    android:textColor="@android:color/black"
+                    android:theme="@style/MyEditText"
+                    android:hint="请输入新增的货物名字">
+            </EditText>
+            <Button
+                    android:id="@+id/find_product_Button"
+                    android:text="查找"
+                    android:textColor="@android:color/black"
+                    android:textSize="20dp">
+            </Button>
+        </TableRow>
+        <TableRow  android:padding="10dp">
+            <EditText
+                    android:id="@+id/edit_addNewProduct_num"
+                    android:padding="3dip"
+                    android:scrollHorizontally="true"
+                    android:inputType="textNoSuggestions"
+                    android:minWidth="200dp"
+                    android:textColor="@android:color/black"
+                    android:theme="@style/MyEditText"
+                    android:hint="请输入新增的货物数量">
+            </EditText>
+            <Button
+                    android:id="@+id/button_addNewProduct"
+                    android:text="新增一种货物"
+                    android:textColor="@android:color/black"
+                    android:textSize="20dp">
+            </Button>
+        </TableRow>
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbarAlwaysDrawHorizontalTrack="false"
+                android:scrollbars="none">
+            <TableLayout
+                    android:id="@+id/table_productChange"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+            </TableLayout>
+        </ScrollView>
+    </TableLayout>
+</LinearLayout>

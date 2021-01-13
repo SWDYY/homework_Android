@@ -37,21 +37,6 @@
                 android:background="@android:color/transparent">
         </Button>
         <Button
-                android:id="@+id/bt3"
-                android:layout_marginTop="4dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="销售"
-                android:textSize="16sp"
-                android:textColor="@android:color/white"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp"
-                android:paddingRight="5dp"
-                android:paddingBottom="5dp"
-                android:drawableTop="@drawable/sell2"
-                android:background="@android:color/transparent">
-        </Button>
-        <Button
                 android:id="@+id/bt4"
                 android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
@@ -64,6 +49,36 @@
                 android:paddingRight="5dp"
                 android:paddingBottom="5dp"
                 android:drawableTop="@drawable/orderlists2"
+                android:background="@android:color/transparent">
+        </Button>
+        <Button
+                android:id="@+id/bt5"
+                android:layout_marginTop="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="库存详情"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
+                android:drawableTop="@drawable/checkstock2"
+                android:background="@android:color/transparent">
+        </Button>
+        <Button
+                android:id="@+id/bt6"
+                android:layout_marginTop="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="员工详情"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
+                android:drawableTop="@drawable/staffmanage2"
                 android:background="@android:color/transparent">
         </Button>
     </circle.CircleLayout>

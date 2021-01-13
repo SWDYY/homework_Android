@@ -16,6 +16,7 @@ import android.widget.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import ButtonListener.jumpFromTo;
 
 public class allStock extends Activity {
     private final String[] name={"id","name","num","inprice","outprice","outprice_wholesale"};
@@ -27,7 +28,9 @@ public class allStock extends Activity {
     private String inprice = null;
     private String outprice = null;
     private String outprice_wholesale = null;
-
+    private String authorityString;
+    private table myTable;
+    private Button btn_stockChange;
     @SuppressLint("HandlerLeak")
     private final Handler handler = new Handler() {
         @Override
@@ -40,14 +43,21 @@ public class allStock extends Activity {
             dialog.show();
             //设置大小
             WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-            params.width = 600; params.height = 800 ;
+            params.width = 800; params.height = 1600 ;
             dialog.getWindow().setAttributes(params);
 
             final EditText et_name = dialogView.findViewById(R.id.et_name);
             final EditText et_num = dialogView.findViewById(R.id.et_num);
             final Button btn_login = dialogView.findViewById(R.id.btn_save);
             final Button btn_cancel = dialogView.findViewById(R.id.btn_cancel);
-
+            final EditText et_inprice=dialogView.findViewById(R.id.et_inprice);
+            final EditText et_outprice=dialogView.findViewById(R.id.et_outprice);
+            final EditText et_outprice_wholesale=dialogView.findViewById(R.id.outprice_wholesale);
+            if (!authorityString.equals("manager")){
+                et_inprice.setVisibility(View.GONE);
+                et_outprice.setVisibility(View.GONE);
+                et_outprice_wholesale.setVisibility(View.GONE);
+            }
             btn_login.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -59,55 +69,76 @@ public class allStock extends Activity {
                     }else if (!num.matches("[0-9]+")){
                         Toast.makeText(allStock.this, "货品数目必须为数字组成!", Toast.LENGTH_SHORT).show();
                         return;
-                    }
-                    else{
+                    } else{
                         try {
                             //先去总仓库查找是否有这个商品
                             JSONArray find_product_repositoryAll = db.executeFind("repository_all", "name",
                                     "'"+et_name.getText().toString()+"'", "repository");
-                            if (find_product_repositoryAll.length() == 0) {
-                                Toast.makeText(allStock.this, "总仓库中没有次商品，无法进货!", Toast.LENGTH_SHORT).show();
+                            if (authorityString.equals("manager")){
+                                if (find_product_repositoryAll.length() == 0) {
+                                    inprice=String.valueOf(et_inprice.getText());
+                                    outprice=String.valueOf(et_outprice.getText());
+                                    outprice_wholesale=String.valueOf(et_outprice_wholesale.getText());
+                                    db.executeInsert(belongtoString+"(name,num,inprice,outprice,outprice_wholesale)",
+                                            "'"+ product_name +"','"+ num+"','"+inprice+"','"+outprice+"','"+outprice_wholesale+"'");
+                                }else {
+                                    JSONObject productRepositoryAll_jsonObject = (JSONObject) find_product_repositoryAll.get(0);
+                                    int myNum=Integer.valueOf(productRepositoryAll_jsonObject.getString("num"));
+                                    String newNum_repositorySelf=String.valueOf(myNum+Integer.valueOf(num));
+                                    db.executeUpdate(belongtoString, "num", newNum_repositorySelf,
+                                            "name", "'" + product_name + "'");
+                                    myTable.clearTable(allStock.this,R.id.MyTableData);
+                                    myTable.showData(db.executeFindAll(belongtoString,"repository"),allStock.this,name,R.id.MyTableData);
+                                    dialog.dismiss();
+                                }
                                 return;
-                            }
-                            /*如果总仓库有，在自己的仓库中添加此商品*/
-                            JSONObject addStock_jsonObject = (JSONObject) find_product_repositoryAll.get(0);
-                            int oldNum=Integer.valueOf(addStock_jsonObject.getString("num"));
-                            if (oldNum<Integer.valueOf(num)){
-                                Toast.makeText(allStock.this, "总仓库中商品数量不够，库存为"+oldNum+"无法进货!", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            //更新总仓库的商品数量
-                            String newNum_repositoryALl=String.valueOf(oldNum-Integer.valueOf(num));
-                            db.executeUpdate("repository_all", "num", newNum_repositoryALl,
-                                    "name", "'" + product_name + "'");
-                            //在自己的仓库查找一下有么有，有的话更新数量，而不是增加一行
-                            JSONArray find_product_repositorySelf = db.executeFind(belongtoString, "name",
-                                    "'"+et_name.getText().toString()+"'", "repository");
-                            if (find_product_repositorySelf.length()>0){
-                                JSONObject productMyRepository_jsonObject = (JSONObject) find_product_repositoryAll.get(0);
-                                int myNum=Integer.valueOf(productMyRepository_jsonObject.getString("num"));
-                                String newNum_repositorySelf=String.valueOf(myNum+Integer.valueOf(num));
-                                db.executeUpdate(belongtoString, "num", newNum_repositorySelf,
+                            }else{
+                                //如果总仓库没有，报错
+                                if (find_product_repositoryAll.length() == 0) {
+                                    Toast.makeText(allStock.this, "总仓库中没有此商品，无法进货!", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                /*如果总仓库有，在自己的仓库中添加此商品*/
+                                JSONObject addStock_jsonObject = (JSONObject) find_product_repositoryAll.get(0);
+                                int oldNum=Integer.valueOf(addStock_jsonObject.getString("num"));
+                                if (oldNum<Integer.valueOf(num)){
+                                    Toast.makeText(allStock.this, "总仓库中商品数量不够，库存为"+oldNum+"无法进货!", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                //更新总仓库的商品数量
+                                String newNum_repositoryALl=String.valueOf(oldNum-Integer.valueOf(num));
+                                db.executeUpdate("repository_all", "num", newNum_repositoryALl,
                                         "name", "'" + product_name + "'");
-                                dialog.dismiss();
-                                return;
+                                //在自己的仓库查找一下有么有，有的话更新数量，而不是增加一行
+                                JSONArray find_product_repositorySelf = db.executeFind(belongtoString, "name",
+                                        "'"+et_name.getText().toString()+"'", "repository");
+                                if (find_product_repositorySelf.length()>0){
+                                    JSONObject productMyRepository_jsonObject = (JSONObject) find_product_repositoryAll.get(0);
+                                    int myNum=Integer.valueOf(productMyRepository_jsonObject.getString("num"));
+                                    String newNum_repositorySelf=String.valueOf(myNum+Integer.valueOf(num));
+                                    db.executeUpdate(belongtoString, "num", newNum_repositorySelf,
+                                            "name", "'" + product_name + "'");
+                                    myTable.clearTable(allStock.this,R.id.MyTableData);
+                                    myTable.showData(db.executeFindAll(belongtoString,"repository"),allStock.this,name,R.id.MyTableData);
+                                    dialog.dismiss();
+                                    return;
+                                }
+                                //自己仓库中没有，在自己仓库中增加一行
+                                inprice=addStock_jsonObject.getString("inprice");
+                                outprice=addStock_jsonObject.getString("outprice");
+                                outprice_wholesale=addStock_jsonObject.getString("outprice_wholesale");
+                                db.executeInsert(belongtoString+"(name,num,inprice,outprice,outprice_wholesale)",
+                                        "'"+ product_name +"','"+ num+"','"+inprice+"','"+outprice+"','"+outprice_wholesale+"'");
                             }
-                            //自己仓库中没有，在自己仓库中增加一行
-                            inprice=addStock_jsonObject.getString("inprice");
-                            outprice=addStock_jsonObject.getString("outprice");
-                            outprice_wholesale=addStock_jsonObject.getString("outprice_wholesale");
-                            db.executeInsert(belongtoString+"(name,num,inprice,outprice,outprice_wholesale)",
-                                    "'"+ product_name +"','"+ num+"','"+inprice+"','"+outprice+"','"+outprice_wholesale+"'");
                             //查找最新的id
                             JSONArray id_JSONArray = db.executeFindMAXID("customermanager", "add_customer");
                             JSONObject id_jsonObject = (JSONObject) id_JSONArray.get(0);
                             id=id_jsonObject.getString("id");
                             JSONObject jsonObject = new JSONObject(convertTOJSON());
-                            table.addData(jsonObject, allStock.this, name, R.id.MyTableData);
+                            myTable.addData(jsonObject, allStock.this, name, R.id.MyTableData);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                     dialog.dismiss();
                 }
@@ -137,14 +168,12 @@ public class allStock extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.no_bottombtn_tableandtop);
-        TextView textView=findViewById(R.id.textView1);
-        textView.setText("库存");
         //获取共享的数据库类
         DBapplication dBapplication=(DBapplication)getApplication();
         this.db=dBapplication.getDB();
-        table table=new table();
+        myTable=new table();
         //初始化表头
-        table.initHeader(name,this,R.id.MyTableData);
+        myTable.initHeader(name,this,R.id.MyTableData);
         //从数据库提取属于哪个仓库
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据
@@ -153,13 +182,23 @@ public class allStock extends Activity {
         try {
             JSONObject jsonObject= (JSONObject) belongto.get(0);
             belongtoString=jsonObject.getString("belongto");
-            if (belongtoString.equals("all")){
-                belongtoString="repository_all";
-            }
+            authorityString=jsonObject.getString("authority");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        table.showData(db.executeFindAll(belongtoString,"repository"),this,name,R.id.MyTableData);
+        if (authorityString.equals("manager")){
+            belongtoString="repository_all";
+            setContentView(R.layout.manager_stock);
+            btn_stockChange=findViewById(R.id.product_change);
+            btn_stockChange.setVisibility(View.VISIBLE);
+            btn_stockChange.setOnClickListener(new jumpFromTo(this,productChange.class,user_name,belongtoString));
+        }else {
+            btn_stockChange=findViewById(R.id.product_change);
+            btn_stockChange.setVisibility(View.GONE);
+        }
+        TextView textView=findViewById(R.id.textView1);
+        textView.setText("库存");
+        myTable.showData(db.executeFindAll(belongtoString,"repository"),this,name,R.id.MyTableData);
         Button btnadd = findViewById(R.id.add);//控件与代码绑定
         btnadd.setOnClickListener(new ButtonListener());//使用点击事件
     }

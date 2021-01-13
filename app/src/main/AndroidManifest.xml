@@ -41,6 +41,16 @@
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
         <activity
+                android:name="com.example.myapplication.managerCircleMainUI"
+                android:label="managerCircleMainUI"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        </activity>
+        <activity
+                android:name="com.example.myapplication.productChange"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                android:label="productChange" >
+        </activity>
+        <activity
                 android:name="com.example.myapplication.sell_addNewOrder"
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                 android:label="sell_addNewOrder" >

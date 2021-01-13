@@ -74,7 +74,8 @@ public class Login extends Activity {
                         if (result.getString("authority").equals("manager")) {
                             user_password.setText("");
                             Intent intent = new Intent();
-                            intent.setClass(Login.this, shopkeeperCircleMainUI.class);
+                            intent.setClass(Login.this, managerCircleMainUI.class);
+                            intent.putExtra("user_name", String.valueOf(user_name.getText()));
                             startActivity(intent);
                         } else if (result.getString("authority").equals("shopkeeper")) {
                             user_password.setText("");
