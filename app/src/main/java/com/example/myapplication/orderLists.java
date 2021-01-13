@@ -40,15 +40,17 @@ public class orderLists extends Activity {
         }
         if (belongtoString.equals("all")){
             setContentView(R.layout.manager_orderlists);
+            //初始化表头
+            table.initHeader(name,this,R.id.MyTableData);
             repository_spinner =findViewById(R.id.spinner1);
             setSpinner();
         }else{
             setContentView(R.layout.no_bottombtn_tableandtop);
+            //初始化表头
+            table.initHeader(name,this,R.id.MyTableData);
             table.showData_clickable(db.executeFindAll(belongtoString+"_order","order"),
                     this,name,R.id.MyTableData,belongtoString);
         }
-        //初始化表头
-        table.initHeader(name,this,R.id.MyTableData);
         Button btn_add=findViewById(R.id.add);
         btn_add.setVisibility(View.GONE);
         TextView textView=findViewById(R.id.textView1);

@@ -126,7 +126,6 @@ public class allEmployee extends Activity {
         setContentView(R.layout.no_bottombtn_tableandtop);
         TextView textView=findViewById(R.id.textView1);
         button_add =findViewById(R.id.add);
-        button_add.setOnClickListener(new ButtonListener());
         textView.setText("员工详情");
         //获取共享的数据库类
         DBapplication dBapplication=(DBapplication)getApplication();
@@ -148,7 +147,9 @@ public class allEmployee extends Activity {
         }
         if (belongtoString.equals("all")){
             table.showData(db.executeFindAll("login","login"),this,name,R.id.MyTableData);
+            button_add.setOnClickListener(new ButtonListener());
         }else{
+            button_add.setVisibility(View.GONE);
             table.showData(db.executeFind("login","belongto","'"+belongtoString+"'","login"),this,name,R.id.MyTableData);
         }
     }

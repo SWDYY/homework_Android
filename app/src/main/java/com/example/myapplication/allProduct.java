@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * 显示全部货品
  */
 public class allProduct extends Activity {
-    private String[] name={"id","name","outprice"};
+    private String[] name={"id","name","num"};
     private database db;
     private Button btn_add;
     private ArrayList<String> repository_name_list;
@@ -47,13 +47,13 @@ public class allProduct extends Activity {
                 setSpinner();
             }else {
                 setContentView(R.layout.no_bottombtn_tableandtop);
+                //初始化表头
+                myTable.initHeader(name,this,R.id.MyTableData);
                 myTable.showData(db.executeFindAll(belongtoString,"repository"),this,name,R.id.MyTableData);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //初始化表头
-        myTable.initHeader(name,this,R.id.MyTableData);
         TextView textView=findViewById(R.id.textView1);
         textView.setText("全部商品");
         btn_add =findViewById(R.id.add);
@@ -79,12 +79,14 @@ public class allProduct extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
                 myTable.clearTable(allProduct.this,R.id.MyTableData);
+                myTable.initHeader(name,allProduct.this,R.id.MyTableData);
                 myTable.showData_clickable(db.executeFindAll(repository_name_list.get(pos),"repository"),
                         allProduct.this,name,R.id.MyTableData,belongtoString);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Another interface callback
+                myTable.initHeader(name,allProduct.this,R.id.MyTableData);
                 myTable.showData_clickable(db.executeFindAll(repository_name_list.get(0),"repository"),
                         allProduct.this,name,R.id.MyTableData,belongtoString);
             }

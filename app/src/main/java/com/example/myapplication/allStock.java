@@ -113,12 +113,13 @@ public class allStock extends Activity {
                                 JSONArray find_product_repositorySelf = db.executeFind(belongtoString, "name",
                                         "'"+et_name.getText().toString()+"'", "repository");
                                 if (find_product_repositorySelf.length()>0){
-                                    JSONObject productMyRepository_jsonObject = (JSONObject) find_product_repositoryAll.get(0);
+                                    JSONObject productMyRepository_jsonObject = (JSONObject) find_product_repositorySelf.get(0);
                                     int myNum=Integer.valueOf(productMyRepository_jsonObject.getString("num"));
                                     String newNum_repositorySelf=String.valueOf(myNum+Integer.valueOf(num));
                                     db.executeUpdate(belongtoString, "num", newNum_repositorySelf,
                                             "name", "'" + product_name + "'");
                                     myTable.clearTable(allStock.this,R.id.MyTableData);
+                                    myTable.initHeader(name,allStock.this,R.id.MyTableData);
                                     myTable.showData(db.executeFindAll(belongtoString,"repository"),allStock.this,name,R.id.MyTableData);
                                     dialog.dismiss();
                                     return;
@@ -192,9 +193,6 @@ public class allStock extends Activity {
             btn_stockChange=findViewById(R.id.product_change);
             btn_stockChange.setVisibility(View.VISIBLE);
             btn_stockChange.setOnClickListener(new jumpFromTo(this,productChange.class,user_name,belongtoString));
-        }else {
-            btn_stockChange=findViewById(R.id.product_change);
-            btn_stockChange.setVisibility(View.GONE);
         }
         TextView textView=findViewById(R.id.textView1);
         textView.setText("库存");
