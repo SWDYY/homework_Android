@@ -43,7 +43,6 @@ public class Login extends Activity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    // todo
                     loginCheck();
                 }
             }).start();
@@ -75,7 +74,7 @@ public class Login extends Activity {
                         if (result.getString("authority").equals("manager")) {
                             user_password.setText("");
                             Intent intent = new Intent();
-                            intent.setClass(Login.this, allProduct.class);
+                            intent.setClass(Login.this, shopkeeperCircleMainUI.class);
                             startActivity(intent);
                         } else if (result.getString("authority").equals("shopkeeper")) {
                             user_password.setText("");
@@ -85,9 +84,10 @@ public class Login extends Activity {
                             startActivity(intent);
                         } else if (result.getString("authority").equals("employee")) {
                             user_password.setText("");
-                            Message message = handler.obtainMessage();
-                            message.obj = "employee," + "employee";
-                            handler.sendMessage(message);
+                            Intent intent = new Intent();
+                            intent.setClass(Login.this, employeeCircleMainUI.class);
+                            intent.putExtra("user_name", String.valueOf(user_name.getText()));
+                            startActivity(intent);
                         }
                     } else {
                         user_password.setText("");

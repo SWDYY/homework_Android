@@ -28,17 +28,14 @@ public class sell_addNewOrder extends Activity {
     private Button button_save;//保存
     private Button Button_add_newOrderItem;
     private Button ButtonHeadReturnMain;
-    private Button ButtonBottom_unchecked;
-    private Button ButtonBottom_unpaid;
-    private Button ButtonBottom_finished;
-    private Button ButtonBottom_unreturned;
-    private Button ButtonBottom_returned;
+    private TextView textView_totalPrice;
     private EditText edit_find_customer;
-    private TextView customerClassification;
+    private TextView textview_customerClassification;
     private EditText edit_addNewProduct_name;
     private EditText edit_addNewProduct_num;
     private String user_name;
     private String belongtoString;
+    private String authorityString;
     private String inpriceString;
     private String outprice;
     private String price_all;
@@ -58,9 +55,6 @@ public class sell_addNewOrder extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shopkeeper_sell);
-        TextView textView = findViewById(R.id.textView1);
-        textView.setText("销售");
         //获取共享的数据库类
         DBapplication dBapplication = (DBapplication) getApplication();
         this.db = dBapplication.getDB();
@@ -73,28 +67,51 @@ public class sell_addNewOrder extends Activity {
         try {
             JSONObject jsonObject = (JSONObject) belongto.get(0);
             belongtoString = jsonObject.getString("belongto");
-            if (belongtoString.equals("all")) {//@TODO  经理不一定用到
-                belongtoString = "repository_all";
-            }
+            authorityString=jsonObject.getString("authority");
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        switch (authorityString){
+            case "shopkeeper":
+                setContentView(R.layout.shopkeeper_sell);
+                Button ButtonBottom_unchecked = findViewById(R.id.radio1);
+                Button ButtonBottom_unpaid = findViewById(R.id.radio2);
+                Button ButtonBottom_finished = findViewById(R.id.radio3);
+                Button ButtonBottom_unreturned = findViewById(R.id.radio4);
+                Button ButtonBottom_returned = findViewById(R.id.radio5);
+                ButtonHeadReturnMain=findViewById(R.id.returnMain);
+                ButtonBottom_unchecked.setOnClickListener(new jumpFromTo(this,unChecked.class,user_name,belongtoString));
+                ButtonBottom_unpaid.setOnClickListener(new jumpFromTo(this,unPaid.class,user_name,belongtoString));
+                ButtonBottom_finished.setOnClickListener(new jumpFromTo(this,finished.class,user_name,belongtoString));
+                ButtonBottom_unreturned.setOnClickListener(new jumpFromTo(this,unReturned.class,user_name,belongtoString));
+                ButtonBottom_returned.setOnClickListener(new jumpFromTo(this,returned.class,user_name,belongtoString));
+                ButtonHeadReturnMain.setOnClickListener(new jumpFromTo(this,shopkeeperCircleMainUI.class,user_name,belongtoString));
+                break;
+            case "employee":
+                setContentView(R.layout.employee_sell);
+                ButtonHeadReturnMain=findViewById(R.id.returnMain);
+                ButtonHeadReturnMain.setOnClickListener(new jumpFromTo(this,employeeCircleMainUI.class,user_name,belongtoString));
+                break;
+            case "manager":
+                belongtoString = "repository_all";
+                //@TODO 还未增加经理的布局
+                setContentView(R.layout.shopkeeper_sell);
+                break;
+        }
+        TextView textView = findViewById(R.id.textView1);
+        textView.setText("开销售单");
         //绑定按钮
         button_findCustomer = findViewById(R.id.find_customerButton);
         button_find_product = findViewById(R.id.find_product_Button);
-        ButtonHeadReturnMain=findViewById(R.id.returnMain);
         button_save = findViewById(R.id.save);
         edit_find_customer = findViewById(R.id.find_customer);
-        customerClassification = findViewById(R.id.textview_customerClassification);
+        textView_totalPrice=findViewById(R.id.textview_totalPrice);
+        textview_customerClassification = findViewById(R.id.textview_customerClassification);
         edit_addNewProduct_name = findViewById(R.id.edit_addNewProduct_name);
         edit_addNewProduct_num = findViewById(R.id.edit_addNewProduct_num);
         Button_add_newOrderItem = findViewById(R.id.add_newOrderItem_Button);
         addOderItem_tableLayout = findViewById(R.id.table_addOrder);
-        ButtonBottom_unchecked = findViewById(R.id.radio1);
-        ButtonBottom_unpaid = findViewById(R.id.radio2);
-        ButtonBottom_finished = findViewById(R.id.radio3);
-        ButtonBottom_unreturned = findViewById(R.id.radio4);
-        ButtonBottom_returned = findViewById(R.id.radio5);
+
         //绑定传递消息handler
         findCustomer_set_editview_noInput = new set_Editview_noInput(sell_addNewOrder.this, edit_find_customer);
         findProduct_set_editview_noInput = new set_Editview_noInput(sell_addNewOrder.this, edit_addNewProduct_name);
@@ -105,12 +122,7 @@ public class sell_addNewOrder extends Activity {
         button_find_product.setOnClickListener(new find_product_buttonListener());
         Button_add_newOrderItem.setOnClickListener(new add_newOrderItem());
         button_save.setOnClickListener(new save());
-        ButtonBottom_unchecked.setOnClickListener(new jumpFromTo(this,unChecked.class,user_name,belongtoString));
-        ButtonBottom_unpaid.setOnClickListener(new jumpFromTo(this,unPaid.class,user_name,belongtoString));
-        ButtonBottom_finished.setOnClickListener(new jumpFromTo(this,finished.class,user_name,belongtoString));
-        ButtonBottom_unreturned.setOnClickListener(new jumpFromTo(this,unReturned.class,user_name,belongtoString));
-        ButtonBottom_returned.setOnClickListener(new jumpFromTo(this,returned.class,user_name,belongtoString));
-        ButtonHeadReturnMain.setOnClickListener(new jumpFromTo(this,shopkeeperCircleMainUI.class,user_name,belongtoString));
+        textView_totalPrice.setText(String.valueOf(0));
         //初始化表头
         table_orderitem = new table();
         table_orderitem.initHeader(name, this, R.id.table_addOrder);
@@ -166,7 +178,7 @@ public class sell_addNewOrder extends Activity {
                         try {
                             JSONObject jsonObject = (JSONObject) find_name.get(0);
                             authority = jsonObject.getString("classification");
-                            customerClassification.setText(authority);
+                            textview_customerClassification.setText(authority);
                             findCustomer_set_editview_noInput.sendMessage(findCustomer_set_editview_noInput.obtainMessage());
 
                         } catch (JSONException e) {
@@ -199,6 +211,8 @@ public class sell_addNewOrder extends Activity {
                 try {
                     inputNum = num_input;
                     price_all = String.valueOf(Float.valueOf(outprice) * Integer.valueOf(num_input));
+                    String totalPrice=String.valueOf(Float.valueOf(String.valueOf(textView_totalPrice.getText()))+Float.valueOf(price_all));
+                    textView_totalPrice.setText(totalPrice);
                     profitList.add(Float.valueOf(inpriceString) * Integer.valueOf(num_input));
                     JSONObject jsonObject = new JSONObject(convertTOJSON());
                     table_orderitem.addData(jsonObject, sell_addNewOrder.this, name, R.id.table_addOrder);
@@ -226,7 +240,7 @@ public class sell_addNewOrder extends Activity {
         @Override
         public void onClick(View v) {
             findCustomer_set_editview_canInput.sendMessage(findCustomer_set_editview_canInput.obtainMessage());
-            customerClassification.setText("");
+            textview_customerClassification.setText("");
             insertInDatabase();
         }
 

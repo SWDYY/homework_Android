@@ -81,7 +81,28 @@
                 android:textSize="20dp">
         </Button>
     </TableRow>
-
+    <TableRow android:padding="10dp">
+        <TextView
+                android:gravity="left"
+                android:textStyle="bold"
+                android:padding="3dip"
+                android:text="合计"
+                android:textSize="55px"
+                android:textColor="@android:color/black"
+        />
+        <!--        显示总价合计-->
+        <TextView
+                android:id="@+id/textview_totalPrice"
+                android:gravity="left"
+                android:textStyle="bold"
+                android:text=""
+                android:padding="3dip"
+                android:textSize="55px"
+                android:minWidth="150dp"
+                android:background="@drawable/has_rectangle_textview"
+                android:textColor="@android:color/black"
+        />
+    </TableRow>
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -102,5 +123,4 @@
             </TableLayout>
         </HorizontalScrollView>
     </ScrollView>
-
 </TableLayout>
