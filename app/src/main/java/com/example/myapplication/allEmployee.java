@@ -35,7 +35,7 @@ public class allEmployee extends Activity {
             dialog.show();
             //设置大小
             WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-            params.width = 600; params.height = 800 ;
+            params.width = 800; params.height = 1000 ;
             dialog.getWindow().setAttributes(params);
 
             final EditText et_name = dialogView.findViewById(R.id.et_name);
@@ -80,12 +80,6 @@ public class allEmployee extends Activity {
                             String result = "{";
                             JSONArray allRepository=db.executeFind("repository_name","name",
                                     "'"+repository+"'","repository_name");
-                            if (allRepository.length()==0){
-                                Toast.makeText(allEmployee.this, "店员的工作地点必须存在，请检查输入!", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            db.executeInsert("login(user_name,user_password,phonenum,authority,belongto)"
-                                    ,"'"+username+"','123456"+"','"+phone+"','"+employee_type+"','"+repository+"'");
                             if (employee_type.equals("shopkeeper")){
                                 if (allRepository.length()==0){
                                     db.executeInsert("repository_name(name)","'"+repository+"'");
@@ -93,7 +87,14 @@ public class allEmployee extends Activity {
                                     db.executeCreate(repository+"_order","order");
                                     db.executeCreate(repository+"_item_order","item_order");
                                 }
+                            }else {
+                                if (allRepository.length()==0){
+                                    Toast.makeText(allEmployee.this, "店员的工作地点必须存在，请检查输入!", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
                             }
+                            db.executeInsert("login(user_name,user_password,phonenum,authority,belongto)"
+                                    ,"'"+username+"','123456"+"','"+phone+"','"+employee_type+"','"+repository+"'");
                             String j_username = "\"user_name\":\"" + username + "\",";
                             String j_phonenum = "\"phonenum\":\"" + phone + "\",";
                             String j_authority="\"authority\":\"" + employee_type + "\",";
