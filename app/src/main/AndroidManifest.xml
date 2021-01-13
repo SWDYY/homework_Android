@@ -38,12 +38,12 @@
         <activity
                 android:name="com.example.myapplication.sell_addNewOrder"
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-                android:label="sell" >
+                android:label="sell_addNewOrder" >
         </activity>
         <activity
                 android:name="com.example.myapplication.allEmployee"
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-                android:label="employeeDetails" >
+                android:label="allEmployee" >
         </activity>
         <activity
                 android:name="com.example.myapplication.allCustomer"
@@ -54,6 +54,11 @@
                 android:name="com.example.myapplication.orderLists"
                 android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                 android:label="orderLists" >
+        </activity>
+        <activity
+                android:name="com.example.myapplication.orderItems"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                android:label="orderItems" >
         </activity>
         <activity
                 android:name="com.example.myapplication.allStock"

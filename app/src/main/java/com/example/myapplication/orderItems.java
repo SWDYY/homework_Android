@@ -9,19 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-public class orderLists extends Activity {
-    private final String[] name={"id","name","price_all","state"};
+public class orderItems extends Activity {
+    private final String[] name={"product_name","num"};
     private database db;
     private Button btn_add;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.no_bottombtn_tableandtop);
         TextView textView=findViewById(R.id.textView1);
-        textView.setText("订单列表");
         btn_add =findViewById(R.id.add);
         btn_add.setVisibility(View.GONE);//因为没用增加功能，设置为不可见
         //获取共享的数据库类
@@ -30,21 +28,14 @@ public class orderLists extends Activity {
         table table=new table();
         //初始化表头
         table.initHeader(name,this,R.id.MyTableData);
-        //从数据库提取属于哪个仓库
+        //从上一个activity提取属于哪个仓库
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();//.getExtras()得到intent所附带的额外数据
-        String user_name=bundle.getString("user_name");//getString()返回指定key的值
-        JSONArray belongto=db.executeFind("login","user_name","'"+user_name+"'","login");
-        String belongtoString="";
-        try {
-            JSONObject jsonObject= (JSONObject) belongto.get(0);
-            belongtoString=jsonObject.getString("belongto");
-            if (!belongtoString.equals("all")){
-                table.showData_clickable(db.executeFindAll(belongtoString+"_order","order"),
-                        this,name,R.id.MyTableData,belongtoString);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String belongToString=bundle.getString("belongTo");//getString()返回指定key的值
+        String id_String=bundle.getString("id");
+        textView.setText("订单"+id_String+"详情");
+        JSONArray orderItems_jsonArray=db.executeFind(belongToString+"_item_order","order_id",
+                "'"+id_String+"'","item_order");
+        table.showData(orderItems_jsonArray,this,name,R.id.MyTableData);
     }
 }

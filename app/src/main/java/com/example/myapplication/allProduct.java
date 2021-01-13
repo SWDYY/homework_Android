@@ -18,7 +18,7 @@ import org.json.JSONObject;
 public class allProduct extends Activity {
     private String[] name={"id","name","outprice"};
     private database db;
-    private Button add;
+    private Button btn_add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +26,8 @@ public class allProduct extends Activity {
         setContentView(R.layout.no_bottombtn_tableandtop);
         TextView textView=findViewById(R.id.textView1);
         textView.setText("全部商品");
-        add=findViewById(R.id.add);
-        add.setVisibility(View.GONE);//因为没用增加权限，设置为不可见
+        btn_add =findViewById(R.id.add);
+        btn_add.setVisibility(View.GONE);//因为没用增加功能// ，设置为不可见
         //获取共享的数据库类
         DBapplication dBapplication=(DBapplication)getApplication();
         this.db=dBapplication.getDB();

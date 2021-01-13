@@ -3,7 +3,10 @@ package com.example.myapplication;
 import Database.database;
 import Table.MyTableTextView;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.SystemClock;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -12,9 +15,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.example.myapplication.R.id.*;
-
 public class table {
+    private  final long CLICK_INTERVAL_TIME = 300;
+    private  long lastClickTime = 0;
+
     public void initHeader(String[] name, Activity activity, int table_id) {
         //初始化标题
         TableLayout table = activity.findViewById(table_id);
@@ -41,6 +45,51 @@ public class table {
                     textview.setText(String.valueOf(jsonObject.get(name[j])));
                     tablerow.addView(textview);
                 }
+                table.addView(tablerow);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void showData_clickable(JSONArray results, Activity activity, String[] name, int table_id,String belongToString) {
+        //初始化数据
+        TableLayout table = activity.findViewById(table_id);
+        table.setStretchAllColumns(true);//自动填充空白处
+        for (int i = 0; i < results.length(); i++) {
+            TableRow tablerow = new TableRow(activity);
+            try {
+                JSONObject jsonObject = (JSONObject) results.get(i);
+                for (int j = 0; j < name.length; j++) {
+                    MyTableTextView textview = new MyTableTextView(activity, Color.BLACK);
+                    textview.setText(String.valueOf(jsonObject.get(name[j])));
+                    tablerow.addView(textview);
+                }
+                //新增加点击事件
+                tablerow.setClickable(true);
+                tablerow.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        //获取系统当前毫秒数，从开机到现在的毫秒数(手机睡眠时间不包括在内)
+                        long currentTimeMillis = SystemClock.uptimeMillis();
+                        //两次点击间隔时间小于300ms代表双击
+                        if (currentTimeMillis - lastClickTime < CLICK_INTERVAL_TIME) {
+                            try {
+                                String id=String.valueOf(jsonObject.get(name[0]));
+                                Intent intent = new Intent();
+                                intent.setClass(activity, orderItems.class);
+                                intent.putExtra("id",id);
+                                intent.putExtra("belongTo",belongToString);
+                                activity.startActivity(intent);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            return;
+                        }
+                        lastClickTime = currentTimeMillis;
+                    }
+                });
+                //
                 table.addView(tablerow);
             } catch (JSONException e) {
                 e.printStackTrace();
