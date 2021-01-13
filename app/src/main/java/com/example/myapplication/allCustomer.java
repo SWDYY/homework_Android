@@ -108,7 +108,6 @@ public class allCustomer extends Activity {
         //获取共享的数据库类
         DBapplication dBapplication=(DBapplication)getApplication();
         this.db=dBapplication.getDB();
-
         //初始化表头
         table.initHeader(name,this,R.id.MyTableData);
         JSONArray allCustomer=db.executeFindAll("customermanager","add_customer");
@@ -129,10 +128,6 @@ public class allCustomer extends Activity {
             }).start();
         }
     }
-
-
-
-
 }
 
 

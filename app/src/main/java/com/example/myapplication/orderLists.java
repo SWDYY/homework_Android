@@ -74,13 +74,13 @@ public class orderLists extends Activity {
                                        int pos, long id) {
                 table.clearTable(orderLists.this,R.id.MyTableData);
                 table.showData_clickable(db.executeFindAll(repository_name_list.get(pos) +"_order","order"),
-                        orderLists.this,name,R.id.MyTableData,belongtoString);
+                        orderLists.this,name,R.id.MyTableData,repository_name_list.get(pos));
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Another interface callback
                 table.showData_clickable(db.executeFindAll(repository_name_list.get(0)+"_order","order"),
-                        orderLists.this,name,R.id.MyTableData,belongtoString);
+                        orderLists.this,name,R.id.MyTableData,repository_name_list.get(0));
             }
         });
     }

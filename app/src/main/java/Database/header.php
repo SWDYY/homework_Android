@@ -11,6 +11,7 @@ function returnClassBytype($type){
             return new order();
         case "update":
         case "insert":
+        case "create":
             return new insertORupdate();
         case "item_order":
             return new item_order();

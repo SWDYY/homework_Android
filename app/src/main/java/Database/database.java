@@ -112,6 +112,24 @@ public class database extends Application {
         }
         return response;
     }
+    /**
+     *在数据库创建一个新的表
+     */
+    public JSONArray executeCreate(String tablename,String value){
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                response= executeHttpFind(host+"executeCreateNewTable.php",tablename,null,value,"create");
+            }
+        });
+        thread.start();
+        try {
+            thread.join();//等待当前线程执行完毕
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
 
     private JSONArray executeHttpFind(String path,String tableName,String index,String value,String type) {
         HttpURLConnection con;
